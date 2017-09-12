@@ -38,11 +38,23 @@ export class FavoritesService {
     }
   }
 
+  addMenuItem(menuItem: string) {
+    this.menuItems.push(menuItem);
+    localStorage.setItem('menuItems', JSON.stringify(this.menuItems.slice()));
+    this.menuItemsUpdated.next(this.menuItems.slice());
+  }
+
   getMenuItems() {
     if (localStorage.menuItems) {
       this.menuItems = JSON.parse(localStorage.getItem('menuItems'));
     }
     return this.menuItems.slice();
+  }
+
+  deleteMenuItem(index: number) {
+    this.menuItems.splice(index, 1);
+    localStorage.setItem('menuItems', JSON.stringify(this.menuItems.slice()));
+    this.menuItemsUpdated.next(this.menuItems.slice());
   }
 
   returnSortedFavorites(category: string) {
