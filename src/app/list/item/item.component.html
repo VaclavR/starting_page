@@ -1,0 +1,17 @@
+<div class="item">
+  <a class="list-group-item" [href]="favorite.url">
+    <h4 class="list-group-item-heading">{{ favorite.name | lowercase }}</h4>
+    <img class="img-fluid" [src]="favorite.url+'favicon.ico'" alt="---">
+    <p class="list-group-item-text">{{ favorite.url }}</p>
+  </a>
+  <div class="btn-group" role="group" aria-label="...">
+    <button class="btn btn-outline-primary btn-sm"
+            (click)="onShowForm()">
+      Edit
+    </button>
+    <button class="btn btn-outline-danger btn-sm"
+            (click)="onDelete()">
+      Delete
+    </button>
+  </div>
+</div>

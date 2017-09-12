@@ -1,0 +1,17 @@
+<div class="list-group">
+  <div class="row">
+    <div
+      class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
+      *ngFor="let favorite of favorites; let i = index">
+      <app-item
+        [favorite]="favorite"
+        [index]="i">
+      </app-item>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <a (click)="onShowForm()">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+</div>

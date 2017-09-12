@@ -1,0 +1,45 @@
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="form-control"
+          required
+          [ngModel]="editedFavorite.name"
+          ngModel>
+      </div>
+      <div class="form-group">
+        <label for="url">Url</label>
+        <input
+          type="url"
+          id="url"
+          name="url"
+          class="form-control"
+          pattern="https?://.+"
+          required
+          [ngModel]="editedFavorite.url"
+          ngModel>
+      </div>
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select name="category"
+                id="category"
+                class="form-control"
+                [ngModel]="editedFavorite.category">
+          <option *ngFor="let option of favService.getMenuItems()" [value]="option">
+            {{ option }}
+          </option>
+
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Save</button>
+      <button type="button" class="btn btn-outline-dark" (click)="bsModalRef.hide()">Close</button>
+    </div>
+  </form>
+
+
