@@ -5,19 +5,17 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { Favorite } from '../../favorite.model';
 
 @Component({
-  selector: 'app-add',
-  templateUrl: './add.component.html',
-  styleUrls: ['./add.component.css']
+  selector: 'app-form-modal',
+  templateUrl: './form-modal.component.html',
+  styleUrls: ['./form-modal.component.css']
 })
-export class AddComponent implements OnInit {
+export class FormModalComponent implements OnInit {
   editedFavorite: Favorite;
-  editedIndex: number;
 
-  constructor(private favService: FavoritesService,
+  constructor(public favService: FavoritesService,
               public bsModalRef: BsModalRef) {}
 
   ngOnInit() {
-    this.editedIndex = this.favService.editedIndex;
     this.editedFavorite = this.favService.editedFavorite;
   }
 
@@ -29,7 +27,7 @@ export class AddComponent implements OnInit {
       }
     }
 
-    if (this.favService.editedIndex === undefined) {
+    if (this.favService.editMode === false) {
       this.favService.addFavorite(form.value);
     } else {
       this.favService.saveEditedFavorite(this.editedFavorite, form.value);

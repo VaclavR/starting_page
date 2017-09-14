@@ -29,11 +29,11 @@ export class TabsComponent implements OnInit, OnDestroy {
   }
 
   public collapsed(event: any): void {
-    console.log(event);
+    // console.log(event);
   }
 
   public expanded(event: any): void {
-    console.log(event);
+    // console.log(event);
   }
 
   onSettings() {

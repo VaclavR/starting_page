@@ -4,7 +4,7 @@ import { FavoritesService } from '../favorites.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Params } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap';
-import { AddComponent } from './add/add.component';
+import { FormModalComponent } from './form-modal/form-modal.component';
 
 @Component({
   selector: 'app-list',
@@ -15,7 +15,6 @@ export class ListComponent implements OnInit, OnDestroy {
 
   favorites: Favorite[];
   subscription: Subscription;
-  category: string;
 
   constructor(private favService: FavoritesService,
               private route: ActivatedRoute,
@@ -23,11 +22,10 @@ export class ListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.category = params.id;
+      this.favService.activeRoute = params.id;
       this.favService.returnSortedFavorites(params.id);
-      console.log(params.id);
     });
-    this.favorites = this.favService.getFavorites(this.category);
+    this.favorites = this.favService.getFavorites();
     this.subscription = this.favService.favoritesUpdated
       .subscribe((favorites: Favorite[]) => {
         this.favorites = favorites;
@@ -38,10 +36,10 @@ export class ListComponent implements OnInit, OnDestroy {
     this.favService.editedFavorite = {
       name: '',
       url: '',
-      category: this.category
+      category: this.favService.activeRoute
     };
-    this.favService.editedIndex = undefined;
-    this.modalService.show(AddComponent);
+    this.favService.editMode = false;
+    this.modalService.show(FormModalComponent);
   }
 
   ngOnDestroy() {

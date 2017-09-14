@@ -7,6 +7,7 @@ export class FavoritesService {
 
   private favorites: Favorite[] = [];
   private menuItems: string[] = [];
+  activeRoute: string;
 
   favoritesUpdated = new Subject<Favorite[]>();
   menuItemsUpdated = new Subject<string[]>();
@@ -16,23 +17,21 @@ export class FavoritesService {
     url: '',
     category: ''
   };
-  editedIndex: number;
+  editMode = false;
 
   constructor() {}
 
-  getFavorites(category?: string) {
+  getFavorites() {
     if (localStorage.favorites) {
       this.favorites = JSON.parse(localStorage.getItem('favorites'));
     }
-    if (category) {
-      if (category === 'all') {
+    if (this.activeRoute !== undefined) {
+      if (this.activeRoute === 'all') {
         return this.favorites.slice();
       }
-      console.log('category - ' + category);
-      const sortedFavorites = this.favorites.filter((favorites) => {
-        return favorites.category === category;
+      return this.favorites.filter((favorites) => {
+        return favorites.category === this.activeRoute;
       });
-      return sortedFavorites;
     } else {
       return this.favorites.slice();
     }
@@ -51,7 +50,10 @@ export class FavoritesService {
     return this.menuItems.slice();
   }
 
-  deleteMenuItem(index: number) {
+  deleteMenuItem(category: string) {
+    const index = this.menuItems.findIndex((menuItem: string) => {
+      return menuItem === category;
+    });
     this.menuItems.splice(index, 1);
     localStorage.setItem('menuItems', JSON.stringify(this.menuItems.slice()));
     this.menuItemsUpdated.next(this.menuItems.slice());
@@ -74,35 +76,22 @@ export class FavoritesService {
     });
     this.favorites.splice(index, 1);
     localStorage.setItem('favorites', JSON.stringify(this.favorites.slice()));
-    this.favoritesUpdated.next(this.favorites.slice());
+    this.returnSortedFavorites(this.activeRoute);
   }
 
   addFavorite(favorite: Favorite) {
-    // const pos = this.menuItems.findIndex((menuItem) => {
-    //   return menuItem === favorite.category;
-    // });
-    // if (pos === -1) {
-    //   this.menuItems.push(favorite.category);
-    //   localStorage.setItem('menuItems', JSON.stringify(this.menuItems.slice()));
-    //   this.menuItemsUpdated.next(this.menuItems.slice());
-    // }
     this.favorites.push(favorite);
     localStorage.setItem('favorites', JSON.stringify(this.favorites.slice()));
-    this.returnSortedFavorites(favorite.category);
+    this.returnSortedFavorites(this.activeRoute);
   }
 
-  saveEditedFavorite(index: number, favorite: Favorite) {
-    // const pos = this.menuItems.findIndex((menuItem) => {
-    //   return menuItem === favorite.category;
-    // });
-    // if (pos === -1) {
-    //   this.menuItems.push(favorite.category);
-    //   localStorage.setItem('menuItems', JSON.stringify(this.menuItems.slice()));
-    //   this.menuItemsUpdated.next(this.menuItems.slice());
-    // }
+  saveEditedFavorite(originalFavorite: Favorite, favorite: Favorite) {
+    const index = this.favorites.findIndex((fav) => {
+      return fav === originalFavorite;
+    });
     this.favorites[index] = favorite;
     localStorage.setItem('favorites', JSON.stringify(this.favorites.slice()));
-    this.returnSortedFavorites(favorite.category);
+    this.returnSortedFavorites(this.activeRoute);
   }
 
 }

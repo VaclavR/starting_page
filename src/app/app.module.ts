@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { ListComponent } from './list/list.component';
 import { ItemComponent } from './list/item/item.component';
-import { AddComponent } from './list/add/add.component';
+import { FormModalComponent } from './list/form-modal/form-modal.component';
 import { FavoritesService } from './favorites.service';
 import { CapitalizePipe } from './capitalize.pipe';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -20,7 +20,7 @@ import { SettingsComponent } from './settings/settings.component';
     TabsComponent,
     ListComponent,
     ItemComponent,
-    AddComponent,
+    FormModalComponent,
     SettingsComponent,
     CapitalizePipe
   ],
@@ -32,7 +32,7 @@ import { SettingsComponent } from './settings/settings.component';
     CollapseModule.forRoot()
   ],
   entryComponents: [
-    AddComponent,
+    FormModalComponent,
     SettingsComponent
   ],
   providers: [FavoritesService],

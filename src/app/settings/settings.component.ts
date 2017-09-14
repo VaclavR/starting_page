@@ -12,6 +12,7 @@ import { FavoritesService } from '../favorites.service';
 export class SettingsComponent implements OnInit {
 
   menuItems: string[];
+  categoryToDelete: string;
   subscription: Subscription;
 
   constructor(private favService: FavoritesService,
@@ -25,13 +26,13 @@ export class SettingsComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    this.favService.addMenuItem(form.value.category.toLowerCase());
+    this.favService.addMenuItem(form.value.addCategory.toLowerCase());
     console.log(this.bsModalRef.content);
     this.bsModalRef.hide();
   }
 
-  onDelete(index: number) {
-    this.favService.deleteMenuItem(index);
+  onDelete(category: string) {
+    this.favService.deleteMenuItem(category);
   }
 
 }
