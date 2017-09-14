@@ -32,8 +32,7 @@ export class AddComponent implements OnInit {
     if (this.favService.editedIndex === undefined) {
       this.favService.addFavorite(form.value);
     } else {
-      this.favService.saveEditedFavorite(this.editedIndex, form.value);
+      this.favService.saveEditedFavorite(this.editedFavorite, form.value);
     }
   }
 }
-
