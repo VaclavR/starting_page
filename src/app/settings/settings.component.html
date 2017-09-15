@@ -34,6 +34,18 @@
                 <button class="btn btn-danger btn-sm" (click)="onDelete(categoryToDelete)">YES</button>
             </div>
           </div>
+          <button class="btn btn-success" (click)="onExport()">Export</button>
+          <button class="btn btn-info" (click)="importForm = !importForm">Import</button>
+          <div class="form-group" *ngIf="importForm">
+              <input type="file" 
+                     id="import" 
+                     name="importedFile" 
+                     class="form-control"
+                     #import="ngModel"
+                     required
+                     ngModel>
+              <button type="button" class="btn btn-info"  (click)="onImport(import)" >Import</button>
+          </div>          
       </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">Close</button>
