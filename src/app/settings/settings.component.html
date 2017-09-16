@@ -38,13 +38,8 @@
           <button class="btn btn-info" (click)="importForm = !importForm">Import</button>
           <div class="form-group" *ngIf="importForm">
               <input type="file" 
-                     id="import" 
-                     name="importedFile" 
                      class="form-control"
-                     #import="ngModel"
-                     required
-                     ngModel>
-              <button type="button" class="btn btn-info"  (click)="onImport(import)" >Import</button>
+                     (change)="onImport($event)">
           </div>          
       </div>
     <div class="modal-footer">

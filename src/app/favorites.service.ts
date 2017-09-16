@@ -94,4 +94,13 @@ export class FavoritesService {
     this.returnSortedFavorites(this.activeRoute);
   }
 
+  proccessImportedSettings(settings: [Favorite[], string[]]) {
+    this.favorites = settings[0];
+    localStorage.setItem('favorites', JSON.stringify(this.favorites.slice()));
+    this.returnSortedFavorites(this.activeRoute);
+    this.menuItems = settings[1];
+    localStorage.setItem('menuItems', JSON.stringify(this.menuItems.slice()));
+    this.menuItemsUpdated.next(this.menuItems.slice());
+  }
+
 }
