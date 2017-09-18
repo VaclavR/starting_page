@@ -4,11 +4,11 @@
     <img class="img-fluid" [src]="'https://s2.googleusercontent.com/s2/favicons?domain_url='+favorite.url" alt="---">
   </a>
   <div class="btn-group" role="group" *ngIf="editMode">
-    <button class="btn btn-outline-primary btn-sm"
+    <button class="btn btn-primary btn-sm"
             (click)="onShowForm()">
       Edit
     </button>
-    <button class="btn btn-outline-danger btn-sm"
+    <button class="btn btn-danger btn-sm"
             (click)="onDelete()">
       Delete
     </button>

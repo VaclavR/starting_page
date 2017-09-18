@@ -16,6 +16,8 @@ import { FormModalComponent } from './list/form-modal/form-modal.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { FavoritesService } from './favorites.service';
 import { CapitalizePipe } from './capitalize.pipe';
+import { ImportModalComponent } from './tabs/import-modal/import-modal.component';
+import { AboutComponent } from './tabs/about/about.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { CapitalizePipe } from './capitalize.pipe';
     ItemComponent,
     FormModalComponent,
     CategoriesComponent,
-    CapitalizePipe
+    CapitalizePipe,
+    ImportModalComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,9 @@ import { CapitalizePipe } from './capitalize.pipe';
   ],
   entryComponents: [
     FormModalComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    ImportModalComponent,
+    AboutComponent
   ],
   providers: [FavoritesService],
   bootstrap: [AppComponent]

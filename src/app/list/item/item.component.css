@@ -2,6 +2,10 @@
   margin-bottom: 10px;
 }
 
+.item a:hover {
+  background-color: lightgoldenrodyellow;
+}
+
 img {
   width: 30px;
   height: 30px;

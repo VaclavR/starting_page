@@ -13,7 +13,7 @@
         <a class="nav-link" routerLink="all">All <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item" *ngFor="let item of menuItems" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="item">{{ item | capitalize}}</a>
+        <a class="nav-link" [routerLink]="item.name">{{ item.name | capitalize}}</a>
       </li>
     </ul>
     <div class="navbar-nav">
@@ -28,10 +28,10 @@
               </a>
             </li>
             <li role="menuitem"><a class="dropdown-item" (click)="onCategories()">Categories</a></li>
-            <li role="menuitem"><a class="dropdown-item">Export Settings</a></li>
-            <li role="menuitem"><a class="dropdown-item">Import Settings</a></li>            
+            <li role="menuitem"><a class="dropdown-item" (click)="onExport()">Export Settings</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="onImport()">Import Settings</a></li>
             <li class="divider dropdown-divider"></li>
-            <li role="menuitem"><a class="dropdown-item">About</a>
+            <li role="menuitem"><a class="dropdown-item" (click)="onAbout()">About</a>
             </li>
           </ul>
         </div>

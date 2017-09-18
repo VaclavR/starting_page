@@ -1,7 +1,5 @@
-export class Favorite {
+export class MenuItem {
   constructor(
     public name: string,
-    public url: string,
-    public category: string
   ) {}
 }

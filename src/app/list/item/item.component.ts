@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs/Rx';
 export class ItemComponent implements OnInit, OnDestroy {
   @Input() favorite: Favorite;
   @Input() index: number;
-  editMode = false;
+  editMode: boolean;
   subcription: Subscription;
 
   constructor(private favService: FavoritesService,
@@ -25,8 +25,9 @@ export class ItemComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params) => {
       this.favService.activeRoute = params.id;
     });
-    this.subcription = this.favService.itemEditMode.subscribe((editMode) => {
-      this.editMode = editMode;
+    this.editMode = this.favService.itemEditMode;
+    this.subcription = this.favService.itemEditModeChanged.subscribe(() => {
+      this.editMode = this.favService.itemEditMode;
     });
   }
 

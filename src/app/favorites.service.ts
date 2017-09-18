@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Favorite } from './favorite.model';
 import { Subject } from 'rxjs/Subject';
+import { MenuItem } from './menuItem.model';
 
 @Injectable()
 export class FavoritesService {
 
   private favorites: Favorite[] = [];
-  private menuItems: string[] = [];
+  private menuItems: MenuItem[] = [];
   activeRoute: string;
 
   favoritesUpdated = new Subject<Favorite[]>();
-  menuItemsUpdated = new Subject<string[]>();
+  menuItemsUpdated = new Subject<MenuItem[]>();
 
   editedFavorite: Favorite = {
     name: '',
@@ -18,7 +19,8 @@ export class FavoritesService {
     category: ''
   };
   formEditMode = false;
-  itemEditMode = new Subject<boolean>();
+  itemEditMode = false;
+  itemEditModeChanged = new Subject<void>();
 
   constructor() {}
 
@@ -38,7 +40,8 @@ export class FavoritesService {
     }
   }
 
-  addMenuItem(menuItem: string) {
+  addMenuItem(category: string) {
+    const menuItem: MenuItem = {name: category};
     this.menuItems.push(menuItem);
     localStorage.setItem('menuItems', JSON.stringify(this.menuItems.slice()));
     this.menuItemsUpdated.next(this.menuItems.slice());
@@ -52,8 +55,8 @@ export class FavoritesService {
   }
 
   deleteMenuItem(category: string) {
-    const index = this.menuItems.findIndex((menuItem: string) => {
-      return menuItem === category;
+    const index = this.menuItems.findIndex((menuItem: MenuItem) => {
+      return menuItem.name === category;
     });
     this.menuItems.splice(index, 1);
     localStorage.setItem('menuItems', JSON.stringify(this.menuItems.slice()));
@@ -61,8 +64,11 @@ export class FavoritesService {
   }
 
   returnSortedFavorites(category: string) {
+    if (category === undefined) {
+      category = 'all';
+    }
     if (category === 'all') {
-     return this.favoritesUpdated.next(this.favorites.slice());
+      return this.favoritesUpdated.next(this.favorites.slice());
     }
 
     const sortedFavorites = this.favorites.filter((favorites) => {
@@ -95,7 +101,7 @@ export class FavoritesService {
     this.returnSortedFavorites(this.activeRoute);
   }
 
-  proccessImportedSettings(settings: [Favorite[], string[]]) {
+  proccessImportedSettings(settings: [Favorite[], MenuItem[]]) {
     this.favorites = settings[0];
     localStorage.setItem('favorites', JSON.stringify(this.favorites.slice()));
     this.returnSortedFavorites(this.activeRoute);

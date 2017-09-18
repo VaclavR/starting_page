@@ -29,8 +29,8 @@
                 id="category"
                 class="form-control"
                 [ngModel]="editedFavorite.category">
-          <option *ngFor="let option of favService.getMenuItems()" [value]="option">
-            {{ option }}
+          <option *ngFor="let option of favService.getMenuItems()" [value]="option.name">
+            {{ option.name }}
           </option>
 
         </select>
