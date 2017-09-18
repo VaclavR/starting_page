@@ -7,11 +7,11 @@ import { FavoritesService } from '../favorites.service';
 import * as FileSaver from 'file-saver';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+  selector: 'app-categories',
+  templateUrl: './categories.component.html',
+  styleUrls: ['./categories.component.css']
 })
-export class SettingsComponent implements OnInit, OnDestroy {
+export class CategoriesComponent implements OnInit, OnDestroy {
 
   menuItems: string[];
   settings: Array<Array<any>> = [];
@@ -20,6 +20,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
   settingSubscription: Subscription;
   importedSettings: [Favorite[], string[]];
   settingsLoaded = new Subject<void>();
+  importForm = false;
+  delayPop;
+  popHide;
 
   constructor(private favService: FavoritesService,
               public bsModalRef: BsModalRef) { }
@@ -50,6 +53,18 @@ export class SettingsComponent implements OnInit, OnDestroy {
   onImport(event) {
     const reader = new FileReader();
     reader.onload = () => {
+      const check = () => {
+        try {
+            JSON.parse(reader.result);
+        } catch (e) {
+            return false;
+        }
+        return true;
+      };
+      if (!check()) {
+        alert('This is not a JSON file!!!');
+        return;
+      }
         const text = JSON.parse(reader.result);
         this.importedSettings = text;
         this.settingsLoaded.next();
@@ -59,6 +74,19 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   onDelete(category: string) {
     this.favService.deleteMenuItem(category);
+  }
+
+  delayedPopover(pop) {
+    this.delayPop = setTimeout(() => {
+      pop.show();
+    }, 1000);
+  }
+  
+  stopPopover(pop) {
+    this.popHide = setTimeout(() => {
+      pop.hide();
+    }, 200);
+    clearTimeout(this.delayPop);
   }
 
   ngOnDestroy() {

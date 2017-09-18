@@ -1,8 +1,8 @@
-import { BsModalService } from 'ngx-bootstrap/modal';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { FavoritesService } from '../favorites.service';
 import { Subscription } from 'rxjs/Subscription';
-import { SettingsComponent } from '../settings/settings.component';
+import { CategoriesComponent } from '../categories/categories.component';
 
 @Component({
   selector: 'app-tabs',
@@ -16,6 +16,7 @@ export class TabsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   public isCollapsed = true;
+  editMode = false;
 
   constructor(private favService: FavoritesService,
               private modalService: BsModalService) { }
@@ -36,12 +37,17 @@ export class TabsComponent implements OnInit, OnDestroy {
     // console.log(event);
   }
 
-  onSettings() {
-    this.modalService.show(SettingsComponent);
+  onCategories() {
+    this.modalService.show(CategoriesComponent);
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  onEditMode() {
+    this.editMode = !this.editMode;
+    this.favService.itemEditMode.next(this.editMode);
   }
 
 }

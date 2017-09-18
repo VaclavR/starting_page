@@ -38,7 +38,7 @@ export class ListComponent implements OnInit, OnDestroy {
       url: '',
       category: this.favService.activeRoute
     };
-    this.favService.editMode = false;
+    this.favService.formEditMode = false;
     this.modalService.show(FormModalComponent);
   }
 

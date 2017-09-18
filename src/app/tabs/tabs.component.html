@@ -16,11 +16,26 @@
         <a class="nav-link" [routerLink]="item">{{ item | capitalize}}</a>
       </li>
     </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" (click)=onSettings()>Settings</a>
-      </li>
-    </ul>
+    <div class="navbar-nav">
+        <div class="btn-group" dropdown>
+          <a class="nav-link dropdown-toggle" dropdownToggle>
+            Settings <span class="caret"></span>
+          </a>
+          <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="onEditMode()">Edit Mode
+                <i *ngIf="editMode" class="fa fa-check"></i>
+              </a>
+            </li>
+            <li role="menuitem"><a class="dropdown-item" (click)="onCategories()">Categories</a></li>
+            <li role="menuitem"><a class="dropdown-item">Export Settings</a></li>
+            <li role="menuitem"><a class="dropdown-item">Import Settings</a></li>            
+            <li class="divider dropdown-divider"></li>
+            <li role="menuitem"><a class="dropdown-item">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
   </div>
 </nav>
 

@@ -1,0 +1,50 @@
+<button type="button" class="close" (click)="bsModalRef.hide()">
+<span aria-hidden="true">&times;</span>
+</button>
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+<div class="form-group">
+  <label for="addCategory">Add Category</label>
+  <input type="text"
+          class="form-control"
+          id="addCategory"
+          name="addCategory"
+          required
+          ngModel>
+</div>
+<button type="submit"
+        class="btn btn-primary"
+        [disabled]="f.invalid">
+  Add
+</button>
+</form>
+<div class="form-group">
+  <label for="deleteCategory">Delete Category</label>
+  <select id="deleteCategory" class="form-control" [(ngModel)]="categoryToDelete">
+    <option *ngFor="let menuItem of menuItems">
+            {{ menuItem }}
+    </option>
+  </select>
+  <div *ngIf="categoryToDelete != undefined">
+      <span>Delete {{ categoryToDelete | capitalize }} Category?</span>
+      <button class="btn btn-danger btn-sm" (click)="onDelete(categoryToDelete)">YES</button>
+  </div>
+</div>
+<button class="btn btn-success" 
+              (click)="onExport()"
+              tooltip="Exports settings to JSON file"
+              #pop1="bs-tooltip"
+              (mouseenter)="delayedPopover(pop1)" (mouseleave)="stopPopover(pop1)">
+              Export
+</button>
+<button class="btn btn-info" 
+        (click)="importForm = !importForm"
+        popover="Imports settings from JSON file"
+        #pop2="bs-popover"
+        (mouseenter)="delayedPopover(pop2)" (mouseleave)="stopPopover(pop2)">
+        Import
+</button>
+<div class="form-group" *ngIf="importForm">
+    <input type="file" 
+            class="form-control"
+            (change)="onImport($event)">
+</div>          

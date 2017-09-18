@@ -17,7 +17,8 @@ export class FavoritesService {
     url: '',
     category: ''
   };
-  editMode = false;
+  formEditMode = false;
+  itemEditMode = new Subject<boolean>();
 
   constructor() {}
 

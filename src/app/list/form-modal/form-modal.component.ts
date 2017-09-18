@@ -27,7 +27,7 @@ export class FormModalComponent implements OnInit {
       }
     }
 
-    if (this.favService.editMode === false) {
+    if (this.favService.formEditMode === false) {
       this.favService.addFavorite(form.value);
     } else {
       this.favService.saveEditedFavorite(this.editedFavorite, form.value);
