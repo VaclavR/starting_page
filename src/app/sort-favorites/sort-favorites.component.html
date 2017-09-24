@@ -1,0 +1,36 @@
+ <div class="container">
+   <div class="row">
+     <div class="col-md-6">
+       <ng-template #itemTemplate let-item="item" let-index="index + 1">
+         <div class="card">
+           <div class="card-body">
+             <span class="card-text">{{ index }}</span> -
+             <span class="card-text">{{ item.value }}</span>
+           </div>
+
+         </div>
+       </ng-template>
+       <bs-sortable
+         [itemTemplate]="itemTemplate"
+         [(ngModel)]="favorites"
+         fieldName="name"
+         itemClass="sortable-item"
+         itemActiveClass="sortable-item-active"
+         placeholderItem="Drag here"
+         placeholderClass="placeholderStyle"
+         wrapperClass="sortable-wrapper"
+       ></bs-sortable>
+     </div>
+     <div class="col-md-6">
+       <div class="info">
+         <button class="btn-primary btn-lg" (click)="saveSorted(favorites)">save</button>
+         <span *ngIf="info">&nbsp;Saved!</span>
+       </div>
+     </div>
+   </div>
+</div>
+
+
+
+
+
