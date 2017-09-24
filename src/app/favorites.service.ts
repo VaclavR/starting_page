@@ -24,12 +24,17 @@ export class FavoritesService {
 
   constructor() {}
 
-  getFavorites() {
+  getFavorites(filter?: string) {
     if (localStorage.favorites) {
       this.favorites = JSON.parse(localStorage.getItem('favorites'));
     }
+    // if (filter) {
+    //   return this.favorites.filter((favorites) => {
+    //     return favorites.category === filter;
+    //   });
+    // }
     if (this.activeRoute !== undefined) {
-      if (this.activeRoute === 'all') {
+      if (this.activeRoute === 'all' || filter === 'all') {
         return this.favorites.slice();
       }
       return this.favorites.filter((favorites) => {
@@ -99,6 +104,11 @@ export class FavoritesService {
     this.favorites[index] = favorite;
     localStorage.setItem('favorites', JSON.stringify(this.favorites.slice()));
     this.returnSortedFavorites(this.activeRoute);
+  }
+
+  saveSortedFavorites(favorites: Favorite[]) {
+    this.favorites = favorites;
+    localStorage.setItem('favorites', JSON.stringify(this.favorites.slice()));
   }
 
   proccessImportedSettings(settings: [Favorite[], MenuItem[]]) {

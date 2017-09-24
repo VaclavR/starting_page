@@ -7,6 +7,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { SortableModule } from 'ngx-bootstrap/sortable';
 
 import { AppComponent } from './app.component';
 import { TabsComponent } from './tabs/tabs.component';
@@ -18,6 +19,7 @@ import { FavoritesService } from './favorites.service';
 import { CapitalizePipe } from './capitalize.pipe';
 import { ImportModalComponent } from './tabs/import-modal/import-modal.component';
 import { AboutComponent } from './tabs/about/about.component';
+import { SortFavoritesComponent } from './sort-favorites/sort-favorites.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { AboutComponent } from './tabs/about/about.component';
     CategoriesComponent,
     CapitalizePipe,
     ImportModalComponent,
-    AboutComponent
+    AboutComponent,
+    SortFavoritesComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,8 @@ import { AboutComponent } from './tabs/about/about.component';
     CollapseModule.forRoot(),
     PopoverModule.forRoot(),
     BsDropdownModule.forRoot(),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    SortableModule.forRoot()
   ],
   entryComponents: [
     FormModalComponent,
