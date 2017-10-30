@@ -27,7 +27,7 @@
               <div class="form-group">
                 <label for="deleteCategory">Delete Category</label>
                 <select id="deleteCategory" class="form-control" [(ngModel)]="categoryToDelete">
-                  <option *ngFor="let menuItem of menuItems">
+                  <option *ngFor="let menuItem of (appState | async).menuItems">
                           {{ menuItem.name }}
                   </option>
                 </select>

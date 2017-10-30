@@ -3,8 +3,9 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs/Subject';
 import { Favorite } from '../../favorite.model';
 import { Subscription } from 'rxjs/Subscription';
-import { FavoritesService } from '../../favorites.service';
 import { MenuItem } from '../../menuItem.model';
+import { Store } from '@ngrx/store';
+import * as AppActions from '../../store/app.actions';
 
 
 @Component({
@@ -19,12 +20,13 @@ export class ImportModalComponent implements OnInit, OnDestroy {
   settingSubscription: Subscription;
 
 
-  constructor(private favService: FavoritesService,
+  constructor(private store: Store<{app: {favorites: Favorite[], menuItems: MenuItem[]}}>,
               public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
     this.settingSubscription = this.settingsLoaded.subscribe(() => {
-      this.favService.proccessImportedSettings(this.importedSettings);
+      this.store.dispatch(new AppActions
+        .ProcessImportedSettings({settings: this.importedSettings}));
     });
   }
 

@@ -1,8 +1,9 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FavoritesService } from '../favorites.service';
 import { Favorite } from '../favorite.model';
-import { MenuItem } from '../menuItem.model';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import * as AppActions from '../store/app.actions';
 
 @Component({
   selector: 'app-sort-favorites',
@@ -10,24 +11,29 @@ import { MenuItem } from '../menuItem.model';
   styleUrls: ['./sort-favorites.component.css']
 })
 export class SortFavoritesComponent implements OnInit {
-
-  categories: MenuItem[];
+  appState: Observable<{favorites: Favorite[]}>;
   favorites: Favorite[] = [];
   info = false;
 
-  constructor(private favService: FavoritesService,
-              private router: Router) { }
+  constructor(private store: Store<{app: {favorites: Favorite[]}}>,
+              private router: Router,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.categories = this.favService.getMenuItems();
-    this.favorites = this.favService.getFavorites('all');
+    this.route.params.subscribe((params: Params) => {
+      this.store.dispatch(new AppActions.ReturnFilteredFavorites(params.id));
+    });
+    this.appState = this.store.select('app');
+    this.appState.subscribe((data) => {
+      this.favorites = data.favorites;
+    });
   }
 
   saveSorted(favorites: Favorite[]) {
     this.info = true;
     const showInfo = setTimeout(() => this.info = false,
       500);
-    this.favService.saveSortedFavorites(favorites);
+    this.store.dispatch(new AppActions.SaveSortedFavorites(this.favorites));
     // this.router.navigate(['/']);
   }
 

@@ -8,6 +8,7 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { SortableModule } from 'ngx-bootstrap/sortable';
+import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from './app.component';
 import { TabsComponent } from './tabs/tabs.component';
@@ -15,11 +16,11 @@ import { ListComponent } from './list/list.component';
 import { ItemComponent } from './list/item/item.component';
 import { FormModalComponent } from './list/form-modal/form-modal.component';
 import { CategoriesComponent } from './categories/categories.component';
-import { FavoritesService } from './favorites.service';
 import { CapitalizePipe } from './capitalize.pipe';
 import { ImportModalComponent } from './tabs/import-modal/import-modal.component';
 import { AboutComponent } from './tabs/about/about.component';
 import { SortFavoritesComponent } from './sort-favorites/sort-favorites.component';
+import { appReducer } from './store/app.reducers';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { SortFavoritesComponent } from './sort-favorites/sort-favorites.componen
     BrowserModule,
     FormsModule,
     AppRoutingModule,
+    StoreModule.forRoot({app: appReducer}),
     ModalModule.forRoot(),
     CollapseModule.forRoot(),
     PopoverModule.forRoot(),
@@ -51,7 +53,7 @@ import { SortFavoritesComponent } from './sort-favorites/sort-favorites.componen
     ImportModalComponent,
     AboutComponent
   ],
-  providers: [FavoritesService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

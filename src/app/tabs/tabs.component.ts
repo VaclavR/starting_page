@@ -1,12 +1,13 @@
 import { AboutComponent } from './about/about.component';
 import { ImportModalComponent } from './import-modal/import-modal.component';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { FavoritesService } from '../favorites.service';
-import { Subscription } from 'rxjs/Subscription';
 import { CategoriesComponent } from '../categories/categories.component';
-import * as FileSaver from 'file-saver';
 import { MenuItem } from '../menuItem.model';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { Favorite } from '../favorite.model';
+import * as AppActions from '../store/app.actions';
 
 @Component({
   selector: 'app-tabs',
@@ -14,38 +15,30 @@ import { MenuItem } from '../menuItem.model';
   styleUrls: ['./tabs.component.css']
 })
 
-export class TabsComponent implements OnInit, OnDestroy {
+export class TabsComponent implements OnInit {
 
-  menuItems: MenuItem[];
-  subscription: Subscription;
+  appState: Observable<{favorites: Favorite[], menuItems: MenuItem[]}>;
+  favorites: Favorite[] = [];
+  menuItems: MenuItem[] = [];
   settings: Array<Array<any>>;
 
   public isCollapsed = true;
   editMode = false;
 
-  constructor(private favService: FavoritesService,
-              private modalService: BsModalService) { }
+  constructor(private modalService: BsModalService,
+              private store: Store<{app: {favorites: Favorite[], menuItems: MenuItem[]}}>) { }
 
   ngOnInit() {
-    this.menuItems = this.favService.getMenuItems();
-    this.subscription = this.favService.menuItemsUpdated
-      .subscribe((menuItems: MenuItem[]) => {
-        this.menuItems = menuItems;
-      });
-  }
-
-  public collapsed(event: any): void {
-    // console.log(event);
-  }
-
-  public expanded(event: any): void {
-    // console.log(event);
+    this.appState = this.store.select('app');
+    this.appState.subscribe((data) => {
+      this.favorites = data.favorites;
+      this.menuItems = data.menuItems;
+    });
   }
 
   onEditMode() {
     this.editMode = !this.editMode;
-    this.favService.itemEditMode = this.editMode;
-    this.favService.itemEditModeChanged.next();
+    this.store.dispatch(new AppActions.EditModeChanged(this.editMode));
   }
 
   onCategories() {
@@ -53,11 +46,7 @@ export class TabsComponent implements OnInit, OnDestroy {
   }
 
   onExport() {
-    this.settings = [];
-    this.settings.push(this.favService.getFavorites());
-    this.settings.push(this.menuItems);
-    const settings = new File([JSON.stringify(this.settings)], 'settings.json', {type: 'text/plain;charset=utf-8'});
-    FileSaver.saveAs(settings);
+    this.store.dispatch(new AppActions.ExportSettings());
   }
 
   onImport() {
@@ -67,11 +56,5 @@ export class TabsComponent implements OnInit, OnDestroy {
   onAbout() {
     this.modalService.show(AboutComponent);
   }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
-
 
 }

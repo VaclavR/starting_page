@@ -1,45 +1,35 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, Subscription } from 'rxjs/Rx';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { FavoritesService } from '../favorites.service';
 import { MenuItem } from '../menuItem.model';
+import { Store } from '@ngrx/store';
+import * as AppActions from '../store/app.actions';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css']
 })
-export class CategoriesComponent implements OnInit, OnDestroy {
-
-  menuItems: MenuItem[];
+export class CategoriesComponent implements OnInit {
+  appState: Observable<{menuItems: MenuItem[]}>;
   categoryToDelete: string;
-  categoriesSubscription: Subscription;
 
-  constructor(private favService: FavoritesService,
+  constructor(private store: Store<{app: {menuItems: MenuItem[]}}>,
               public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
-
-    this.menuItems = this.favService.getMenuItems();
-    this.categoriesSubscription = this.favService.menuItemsUpdated.subscribe((menuItems) => {
-      this.menuItems = menuItems;
-    });
+    this.appState = this.store.select('app');
   }
 
   onAdd(form: NgForm) {
-    this.favService.addMenuItem(form.value.name.toLowerCase());
+    this.store.dispatch(new AppActions.AddMenuItem(new MenuItem(form.value.name.toLowerCase())));
     form.reset();
-    // console.log(this.bsModalRef.content);
   }
 
   onDelete(category: string) {
-    this.favService.deleteMenuItem(category);
+    this.store.dispatch(new AppActions.DeleteMenuItem(new MenuItem(category)));
     this.categoryToDelete = undefined;
-  }
-
-  ngOnDestroy() {
-    this.categoriesSubscription.unsubscribe();
   }
 
 }

@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { FavoritesService } from '../../favorites.service';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { Favorite } from '../../favorite.model';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { MenuItem } from '../../menuItem.model';
+import * as AppActions from '../../store/app.actions';
 
 @Component({
   selector: 'app-form-modal',
@@ -11,12 +14,26 @@ import { Favorite } from '../../favorite.model';
 })
 export class FormModalComponent implements OnInit {
   editedFavorite: Favorite;
+  editMode = false;
+  appState: Observable<{
+    favorites: Favorite[],
+    menuItems: MenuItem[],
+    formEditMode: boolean,
+    editedFavorite: Favorite}>;
 
-  constructor(public favService: FavoritesService,
+  constructor(private store: Store<{app: {
+                favorites: Favorite[],
+                menuItems: MenuItem[],
+                formEditMode: boolean,
+                editedFavorite: Favorite}}>,
               public bsModalRef: BsModalRef) {}
 
   ngOnInit() {
-    this.editedFavorite = this.favService.editedFavorite;
+    this.appState = this.store.select('app');
+    this.appState.subscribe((data) => {
+      this.editMode = data.formEditMode;
+      this.editedFavorite = data.editedFavorite;
+    });
   }
 
   onSubmit(form: NgForm) {
@@ -27,10 +44,11 @@ export class FormModalComponent implements OnInit {
       }
     }
 
-    if (this.favService.formEditMode === false) {
-      this.favService.addFavorite(form.value);
+    if (this.editMode === false) {
+      this.store.dispatch(new AppActions.AddFavorite(form.value));
     } else {
-      this.favService.saveEditedFavorite(this.editedFavorite, form.value);
+      this.store.dispatch(new AppActions
+        .SaveEditedFavorite({originalFavorite: this.editedFavorite, newFavorite: form.value}));
     }
   }
 }
