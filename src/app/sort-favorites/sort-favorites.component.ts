@@ -4,6 +4,7 @@ import { Favorite } from '../favorite.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as AppActions from '../store/app.actions';
+import * as fromApp from '../store/app.reducers';
 
 @Component({
   selector: 'app-sort-favorites',
@@ -11,11 +12,11 @@ import * as AppActions from '../store/app.actions';
   styleUrls: ['./sort-favorites.component.css']
 })
 export class SortFavoritesComponent implements OnInit {
-  appState: Observable<{favorites: Favorite[]}>;
+  appState: Observable<fromApp.State>;
   favorites: Favorite[] = [];
   info = false;
 
-  constructor(private store: Store<{app: {favorites: Favorite[]}}>,
+  constructor(private store: Store<fromApp.AppState>,
               private router: Router,
               private route: ActivatedRoute) { }
 

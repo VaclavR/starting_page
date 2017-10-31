@@ -4,8 +4,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { Favorite } from '../../favorite.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { MenuItem } from '../../menuItem.model';
 import * as AppActions from '../../store/app.actions';
+import * as fromApp from '../../store/app.reducers';
 
 @Component({
   selector: 'app-form-modal',
@@ -15,17 +15,9 @@ import * as AppActions from '../../store/app.actions';
 export class FormModalComponent implements OnInit {
   editedFavorite: Favorite;
   editMode = false;
-  appState: Observable<{
-    favorites: Favorite[],
-    menuItems: MenuItem[],
-    formEditMode: boolean,
-    editedFavorite: Favorite}>;
+  appState: Observable<fromApp.State>;
 
-  constructor(private store: Store<{app: {
-                favorites: Favorite[],
-                menuItems: MenuItem[],
-                formEditMode: boolean,
-                editedFavorite: Favorite}}>,
+  constructor(private store: Store<fromApp.AppState>,
               public bsModalRef: BsModalRef) {}
 
   ngOnInit() {

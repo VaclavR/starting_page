@@ -5,8 +5,10 @@ import { BsModalService } from 'ngx-bootstrap';
 import { FormModalComponent } from './form-modal/form-modal.component';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import * as AppActions from '../store/app.actions';
 import { MenuItem } from '../menuItem.model';
+import * as fromApp from '../store/app.reducers';
+import * as AppActions from '../store/app.actions';
+
 
 @Component({
   selector: 'app-list',
@@ -15,11 +17,11 @@ import { MenuItem } from '../menuItem.model';
 })
 
 export class ListComponent implements OnInit {
-  appState: Observable<{favorites: Favorite[], menuItems: MenuItem[]}>;
+  appState: Observable<fromApp.State>;
   menuItems: MenuItem[];
   favorites: Favorite[];
 
-  constructor(private store: Store<{app: {favorites: Favorite[], menuItems: MenuItem[]}}>,
+  constructor(private store: Store<fromApp.AppState>,
               private route: ActivatedRoute,
               private modalService: BsModalService) { }
 

@@ -3,8 +3,9 @@ import { NgForm } from '@angular/forms/src/directives';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MenuItem } from '../menuItem.model';
 import { Store } from '@ngrx/store';
-import * as AppActions from '../store/app.actions';
 import { Observable } from 'rxjs/Observable';
+import * as AppActions from '../store/app.actions';
+import * as fromApp from '../store/app.reducers';
 
 @Component({
   selector: 'app-categories',
@@ -12,10 +13,10 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent implements OnInit {
-  appState: Observable<{menuItems: MenuItem[]}>;
+  appState: Observable<fromApp.State>;
   categoryToDelete: string;
 
-  constructor(private store: Store<{app: {menuItems: MenuItem[]}}>,
+  constructor(private store: Store<fromApp.AppState>,
               public bsModalRef: BsModalRef) { }
 
   ngOnInit() {

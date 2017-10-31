@@ -4,8 +4,9 @@ import { Favorite } from '../../favorite.model';
 import { BsModalService } from 'ngx-bootstrap';
 import { FormModalComponent } from '../form-modal/form-modal.component';
 import { Store } from '@ngrx/store';
-import * as AppActions from '../../store/app.actions';
 import { Observable } from 'rxjs/Observable';
+import * as AppActions from '../../store/app.actions';
+import * as fromApp from '../../store/app.reducers';
 
 @Component({
   selector: 'app-item',
@@ -16,11 +17,11 @@ export class ItemComponent implements OnInit {
   @Input() favorite: Favorite;
   @Input() index: number;
   editMode: boolean;
-  appState: Observable<{favorites: Favorite[], itemEditMode: boolean}>;
+  appState: Observable<fromApp.State>;
 
   constructor(private route: ActivatedRoute,
               private modalService: BsModalService,
-              private store: Store<{app: {favorites: Favorite[], itemEditMode: boolean}}>) { }
+              private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
     this.route.params.subscribe((params) => {

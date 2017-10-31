@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { MenuItem } from '../../menuItem.model';
 import { Store } from '@ngrx/store';
 import * as AppActions from '../../store/app.actions';
-
+import * as fromApp from '../../store/app.reducers';
 
 @Component({
   selector: 'app-import-modal',
@@ -20,7 +20,7 @@ export class ImportModalComponent implements OnInit, OnDestroy {
   settingSubscription: Subscription;
 
 
-  constructor(private store: Store<{app: {favorites: Favorite[], menuItems: MenuItem[]}}>,
+  constructor(private store: Store<fromApp.AppState>,
               public bsModalRef: BsModalRef) { }
 
   ngOnInit() {

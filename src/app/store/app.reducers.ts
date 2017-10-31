@@ -3,6 +3,20 @@ import * as FileSaver from 'file-saver';
 import { Favorite } from '../favorite.model';
 import { MenuItem } from '../menuItem.model';
 
+export interface AppState {
+  app: State;
+}
+
+export interface State {
+  favorites: Favorite[];
+  menuItems: MenuItem[];
+  editedFavorite: Favorite;
+  activeRoute: string;
+  activeMenuItem: string;
+  formEditMode: boolean;
+  itemEditMode: boolean;
+}
+
 let initialState = {
   favorites: [
     new Favorite('idnes', 'http://idnes.cz', 'news'),

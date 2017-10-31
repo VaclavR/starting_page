@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Favorite } from '../favorite.model';
 import * as AppActions from '../store/app.actions';
+import * as fromApp from '../store/app.reducers';
 
 @Component({
   selector: 'app-tabs',
@@ -17,7 +18,7 @@ import * as AppActions from '../store/app.actions';
 
 export class TabsComponent implements OnInit {
 
-  appState: Observable<{favorites: Favorite[], menuItems: MenuItem[]}>;
+  appState: Observable<fromApp.State>;
   favorites: Favorite[] = [];
   menuItems: MenuItem[] = [];
   settings: Array<Array<any>>;
@@ -26,7 +27,7 @@ export class TabsComponent implements OnInit {
   editMode = false;
 
   constructor(private modalService: BsModalService,
-              private store: Store<{app: {favorites: Favorite[], menuItems: MenuItem[]}}>) { }
+              private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
     this.appState = this.store.select('app');
