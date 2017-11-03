@@ -1,45 +1,50 @@
-  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-    <div class="modal-body">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          class="form-control"
-          required
-          [ngModel]="editedFavorite.name"
-          ngModel>
+  <div class="modal-content" [ngClass]="{'bg-dark text-light' : darkTheme}">
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="url">Url</label>
+          <input
+            type="url"
+            id="url"
+            name="url"
+            class="form-control"
+            [ngClass]="{'bg-dark text-light' : darkTheme}"
+            pattern="https?://.+"
+            required
+            [ngModel]="editedFavorite.url"
+            ngModel>
+        </div>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-control"
+            [ngClass]="{'bg-dark text-light' : darkTheme}"
+            required
+            [ngModel]="editedFavorite.name"
+            ngModel>
+        </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select name="category"
+                  id="category"
+                  class="form-control"
+                  [ngClass]="{'bg-dark text-light' : darkTheme}"
+                  [ngModel]="editedFavorite.category">
+            <option *ngFor="let option of (appState | async).menuItems" [value]="option.name">
+              {{ option.name }}
+            </option>
+          </select>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="url">Url</label>
-        <input
-          type="url"
-          id="url"
-          name="url"
-          class="form-control"
-          pattern="https?://.+"
-          required
-          [ngModel]="editedFavorite.url"
-          ngModel>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Save</button>
+        <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Close</button>
       </div>
-      <div class="form-group">
-        <label for="category">Category</label>
-        <select name="category"
-                id="category"
-                class="form-control"
-                [ngModel]="editedFavorite.category">
-          <option *ngFor="let option of (appState | async).menuItems" [value]="option.name">
-            {{ option.name }}
-          </option>
+    </form>
+  </div>
 
-        </select>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Save</button>
-      <button type="button" class="btn btn-outline-dark" (click)="bsModalRef.hide()">Close</button>
-    </div>
-  </form>
 
 

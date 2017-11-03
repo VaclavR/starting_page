@@ -14,6 +14,7 @@ import * as fromApp from '../store/app.reducers';
 })
 export class CategoriesComponent implements OnInit {
   appState: Observable<fromApp.State>;
+  darkTheme: boolean;
   categoryToDelete: string;
 
   constructor(private store: Store<fromApp.AppState>,
@@ -21,6 +22,9 @@ export class CategoriesComponent implements OnInit {
 
   ngOnInit() {
     this.appState = this.store.select('app');
+    this.appState.subscribe((data) => {
+      this.darkTheme = data.darkTheme;
+    });
   }
 
   onAdd(form: NgForm) {

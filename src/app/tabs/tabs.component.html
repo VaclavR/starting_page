@@ -1,4 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light"
+     [ngClass]="{'navbar-light bg-light': !darkTheme,
+                 'navbar-dark bg-dark' : darkTheme
+                 }">
   <button class="navbar-toggler"
           (click)="isCollapsed = !isCollapsed"
           type="button">
@@ -11,7 +14,12 @@
         <a class="nav-link" routerLink="all">All <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item" *ngFor="let item of menuItems" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="item.name">{{ item.name | capitalize}}</a>
+          <a class="nav-link" [ngClass]="{'editMode': editMode}"
+             [routerLink]="item.name">{{ item.name | capitalize}}</a>
+          <span *ngIf="editMode">
+            <i class="fa fa-pencil-square-o text-warning" aria-hidden="true"></i>
+            <i class="fa fa-window-close text-danger" aria-hidden="true"></i>
+          </span>
       </li>
     </ul>
     <div class="navbar-nav">
@@ -19,16 +27,20 @@
           <a class="nav-link dropdown-toggle" dropdownToggle>
             Settings <span class="caret"></span>
           </a>
-          <ul *dropdownMenu class="dropdown-menu" role="menu">
+          <ul *dropdownMenu
+              class="dropdown-menu"
+              [ngClass]="{'bg-dark text-light' : darkTheme}"
+              role="menu">
             <li role="menuitem">
               <a class="dropdown-item" (click)="onEditMode()">Edit Mode
                 <i *ngIf="editMode" class="fa fa-check"></i>
               </a>
             </li>
             <li role="menuitem"><a class="dropdown-item" (click)="onCategories()">Categories</a></li>
-            <li role="menuitem"><a class="dropdown-item" routerLink="/sort">Sort Favorites</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="onSort()">Sort Favorites</a></li>
             <li role="menuitem"><a class="dropdown-item" (click)="onExport()">Export Settings</a></li>
             <li role="menuitem"><a class="dropdown-item" (click)="onImport()">Import Settings</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="onToggleTheme()">Change Theme</a></li>
             <li class="divider dropdown-divider"></li>
             <li role="menuitem"><a class="dropdown-item" (click)="onAbout()">About</a>
             </li>

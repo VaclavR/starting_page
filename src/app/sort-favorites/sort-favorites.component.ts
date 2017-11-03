@@ -1,4 +1,4 @@
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Favorite } from '../favorite.model';
 import { Store } from '@ngrx/store';
@@ -13,11 +13,11 @@ import * as fromApp from '../store/app.reducers';
 })
 export class SortFavoritesComponent implements OnInit {
   appState: Observable<fromApp.State>;
+  darkTheme: boolean;
   favorites: Favorite[] = [];
   info = false;
 
   constructor(private store: Store<fromApp.AppState>,
-              private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -27,6 +27,7 @@ export class SortFavoritesComponent implements OnInit {
     this.appState = this.store.select('app');
     this.appState.subscribe((data) => {
       this.favorites = data.favorites;
+      this.darkTheme = data.darkTheme;
     });
   }
 
@@ -35,7 +36,6 @@ export class SortFavoritesComponent implements OnInit {
     const showInfo = setTimeout(() => this.info = false,
       500);
     this.store.dispatch(new AppActions.SaveSortedFavorites(this.favorites));
-    // this.router.navigate(['/']);
   }
 
 }

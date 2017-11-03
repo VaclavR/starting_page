@@ -17,6 +17,7 @@ export class ItemComponent implements OnInit {
   @Input() favorite: Favorite;
   @Input() index: number;
   editMode: boolean;
+  darkTheme: boolean;
   appState: Observable<fromApp.State>;
 
   constructor(private route: ActivatedRoute,
@@ -30,6 +31,7 @@ export class ItemComponent implements OnInit {
     this.appState = this.store.select('app');
     this.appState.subscribe((data) => {
       this.editMode = data.itemEditMode;
+      this.darkTheme = data.darkTheme;
     });
   }
 

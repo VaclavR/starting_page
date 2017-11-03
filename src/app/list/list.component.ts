@@ -18,6 +18,7 @@ import * as AppActions from '../store/app.actions';
 
 export class ListComponent implements OnInit {
   appState: Observable<fromApp.State>;
+  darkTheme: boolean;
   menuItems: MenuItem[];
   favorites: Favorite[];
 
@@ -33,6 +34,7 @@ export class ListComponent implements OnInit {
     this.appState.subscribe((data) => {
       this.menuItems = data.menuItems;
       this.favorites = data.favorites;
+      this.darkTheme = data.darkTheme;
     });
   }
 

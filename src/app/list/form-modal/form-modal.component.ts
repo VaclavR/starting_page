@@ -16,6 +16,7 @@ export class FormModalComponent implements OnInit {
   editedFavorite: Favorite;
   editMode = false;
   appState: Observable<fromApp.State>;
+  darkTheme: boolean;
 
   constructor(private store: Store<fromApp.AppState>,
               public bsModalRef: BsModalRef) {}
@@ -25,6 +26,7 @@ export class FormModalComponent implements OnInit {
     this.appState.subscribe((data) => {
       this.editMode = data.formEditMode;
       this.editedFavorite = data.editedFavorite;
+      this.darkTheme = data.darkTheme;
     });
   }
 

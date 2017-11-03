@@ -7,6 +7,7 @@ import { MenuItem } from '../../menuItem.model';
 import { Store } from '@ngrx/store';
 import * as AppActions from '../../store/app.actions';
 import * as fromApp from '../../store/app.reducers';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-import-modal',
@@ -15,6 +16,8 @@ import * as fromApp from '../../store/app.reducers';
 })
 export class ImportModalComponent implements OnInit, OnDestroy {
 
+  appState: Observable<fromApp.State>;
+  darkTheme: boolean;
   importedSettings: [Favorite[], MenuItem[]];
   settingsLoaded = new Subject<void>();
   settingSubscription: Subscription;
@@ -24,6 +27,11 @@ export class ImportModalComponent implements OnInit, OnDestroy {
               public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
+    this.appState = this.store.select('app');
+    this.appState.subscribe((data) => {
+      this.darkTheme = data.darkTheme;
+    });
+
     this.settingSubscription = this.settingsLoaded.subscribe(() => {
       this.store.dispatch(new AppActions
         .ProcessImportedSettings({settings: this.importedSettings}));

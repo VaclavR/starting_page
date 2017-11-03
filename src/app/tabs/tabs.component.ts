@@ -1,6 +1,6 @@
 import { AboutComponent } from './about/about.component';
 import { ImportModalComponent } from './import-modal/import-modal.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CategoriesComponent } from '../categories/categories.component';
 import { MenuItem } from '../menuItem.model';
@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { Favorite } from '../favorite.model';
 import * as AppActions from '../store/app.actions';
 import * as fromApp from '../store/app.reducers';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tabs',
@@ -19,6 +20,7 @@ import * as fromApp from '../store/app.reducers';
 export class TabsComponent implements OnInit {
 
   appState: Observable<fromApp.State>;
+  darkTheme = true;
   favorites: Favorite[] = [];
   menuItems: MenuItem[] = [];
   settings: Array<Array<any>>;
@@ -27,13 +29,21 @@ export class TabsComponent implements OnInit {
   editMode = false;
 
   constructor(private modalService: BsModalService,
-              private store: Store<fromApp.AppState>) { }
+              private store: Store<fromApp.AppState>,
+              private router: Router,
+              private elementRef: ElementRef) { }
 
   ngOnInit() {
     this.appState = this.store.select('app');
     this.appState.subscribe((data) => {
       this.favorites = data.favorites;
       this.menuItems = data.menuItems;
+      this.darkTheme = data.darkTheme;
+      if (this.darkTheme) {
+        this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'black';
+      } else {
+        this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'white';
+      }
     });
   }
 
@@ -46,12 +56,20 @@ export class TabsComponent implements OnInit {
     this.modalService.show(CategoriesComponent);
   }
 
+  onSort() {
+    this.router.navigate(['/sort']);
+  }
+
   onExport() {
     this.store.dispatch(new AppActions.ExportSettings());
   }
 
   onImport() {
     this.modalService.show(ImportModalComponent);
+  }
+
+  onToggleTheme() {
+    this.store.dispatch(new AppActions.ChangeTheme());
   }
 
   onAbout() {

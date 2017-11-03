@@ -1,7 +1,9 @@
-<div class="modal-content">
+<div class="modal-content" [ngClass]="{'bg-dark text-light' : darkTheme}">
         <div class="modal-header">
           <h5 class="modal-title">Categories</h5>
-          <button type="button" class="close" (click)="bsModalRef.hide()">
+          <button type="button" class="close"
+                  [ngClass]="{'text-light' : darkTheme}"
+                  (click)="bsModalRef.hide()">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -11,6 +13,7 @@
                 <label for="addCategory">Add Category</label>
                 <input type="text"
                        class="form-control"
+                       [ngClass]="{'bg-dark text-light' : darkTheme}"
                        id="addCategory"
                        name="name"
                        required
@@ -26,7 +29,9 @@
             </form>
               <div class="form-group">
                 <label for="deleteCategory">Delete Category</label>
-                <select id="deleteCategory" class="form-control" [(ngModel)]="categoryToDelete">
+                <select id="deleteCategory" class="form-control"
+                        [ngClass]="{'bg-dark text-light' : darkTheme}"
+                        [(ngModel)]="categoryToDelete">
                   <option *ngFor="let menuItem of (appState | async).menuItems">
                           {{ menuItem.name }}
                   </option>

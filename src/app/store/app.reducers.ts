@@ -15,6 +15,7 @@ export interface State {
   activeMenuItem: string;
   formEditMode: boolean;
   itemEditMode: boolean;
+  darkTheme: boolean;
 }
 
 let initialState = {
@@ -30,6 +31,7 @@ let initialState = {
   activeMenuItem: 'all',
   formEditMode: false,
   itemEditMode: false,
+  darkTheme: false,
   editedFavorite: new Favorite('', '', ''),
   activeRoute: 'all'
 };
@@ -39,6 +41,9 @@ if (localStorage.menuItems) {
 }
 if (localStorage.favorites) {
   initialState.favorites = JSON.parse(localStorage.getItem('favorites'));
+}
+if (localStorage.darkTheme) {
+  initialState.darkTheme = JSON.parse(localStorage.getItem('darkTheme'));
 }
 
 export function appReducer(state = initialState, action: AppActions.AppActions) {
@@ -168,6 +173,13 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
       return {
         ...state,
         activeRoute: action.payload
+      };
+
+    case (AppActions.CHANGE_THEME):
+      localStorage.setItem('darkTheme', JSON.stringify(!state.darkTheme));
+      return {
+        ...state,
+        darkTheme: !state.darkTheme
       };
 
     default:

@@ -1,10 +1,12 @@
 <div class="item">
-  <a class="list-group-item" [href]="favorite.url">
+  <a class="list-group-item"
+     [href]="favorite.url"
+     [ngClass]="{'bg-dark text-light' : darkTheme}">
     <h4 class="list-group-item-heading">{{ favorite.name | lowercase }}</h4>
     <img class="img-fluid" [src]="'https://s2.googleusercontent.com/s2/favicons?domain_url='+favorite.url" alt="---">
   </a>
   <div class="btn-group" role="group" *ngIf="editMode">
-    <button class="btn btn-primary btn-sm"
+    <button class="btn btn-warning btn-sm"
             (click)="onShowForm()">
       Edit
     </button>

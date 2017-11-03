@@ -14,6 +14,7 @@ export const EXPORT_SETTINGS = 'EXPORT_SETTINGS';
 export const EDIT_MODE_CHANGED = 'EDIT_MODE_CHANGED';
 export const FORM_EDIT_MODE_CHANGED = 'FORM_EDIT_MODE_CHANGED';
 export const ACTIVE_ROUTE = 'ACTIVE_ROUTE';
+export const CHANGE_THEME = 'CHANGE_THEME';
 
 export class AddMenuItem implements Action {
   readonly type = ADD_MENU_ITEM;
@@ -74,6 +75,10 @@ export class ActiveRoute implements Action {
   constructor(public payload: string) {}
 }
 
+export class ChangeTheme implements Action {
+  readonly type = CHANGE_THEME;
+}
+
 export type AppActions =
   AddMenuItem |
   DeleteMenuItem |
@@ -86,4 +91,5 @@ export type AppActions =
   ExportSettings |
   EditModeChanged |
   FormEditModeChanged |
-  ActiveRoute;
+  ActiveRoute |
+  ChangeTheme;
