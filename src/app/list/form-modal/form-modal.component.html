@@ -1,38 +1,34 @@
   <div class="modal-content" [ngClass]="{'bg-dark text-light' : darkTheme}">
-    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <form (ngSubmit)="onSubmit()" [formGroup]="favoriteForm">
       <div class="modal-body">
         <div class="form-group">
           <label for="url">Url</label>
           <input
             type="url"
             id="url"
-            name="url"
+            formControlName="url"
             class="form-control"
             [ngClass]="{'bg-dark text-light' : darkTheme}"
             pattern="https?://.+"
-            required
-            [ngModel]="editedFavorite.url"
-            ngModel>
+            >
         </div>
         <div class="form-group">
           <label for="name">Name</label>
           <input
             type="text"
             id="name"
-            name="name"
+            formControlName="name"
             class="form-control"
             [ngClass]="{'bg-dark text-light' : darkTheme}"
-            required
-            [ngModel]="editedFavorite.name"
-            ngModel>
+            >
         </div>
         <div class="form-group">
           <label for="category">Category</label>
-          <select name="category"
+          <select formControlName="category"
                   id="category"
                   class="form-control"
                   [ngClass]="{'bg-dark text-light' : darkTheme}"
-                  [ngModel]="editedFavorite.category">
+                  >
             <option *ngFor="let option of (appState | async).menuItems" [value]="option.name">
               {{ option.name }}
             </option>
@@ -40,7 +36,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Save</button>
+        <button type="submit" class="btn btn-primary" [disabled]="favoriteForm.invalid">Save</button>
         <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Close</button>
       </div>
     </form>

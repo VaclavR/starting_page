@@ -1,8 +1,8 @@
-import { AboutComponent } from './about/about.component';
+import { AboutComponent } from './about-modal/about.component';
 import { ImportModalComponent } from './import-modal/import-modal.component';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { CategoriesComponent } from '../categories/categories.component';
+import { CategoriesComponent } from './categories-modal/categories.component';
 import { MenuItem } from '../menuItem.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';

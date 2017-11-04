@@ -6,30 +6,36 @@ import { CollapseModule} from 'ngx-bootstrap/collapse';
 
 import { TabsComponent } from './tabs.component';
 import { ImportModalComponent } from './import-modal/import-modal.component';
-import { AboutComponent } from './about/about.component';
+import { AboutComponent } from './about-modal/about.component';
 import { CapitalizePipe } from '../capitalize.pipe';
+import { CategoriesComponent } from './categories-modal/categories.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     TabsComponent,
     ImportModalComponent,
     AboutComponent,
+    CategoriesComponent,
     CapitalizePipe
   ],
   imports: [
     CommonModule,
     AppRoutingModule,
+    FormsModule,
     CollapseModule.forRoot(),
     BsDropdownModule.forRoot()
   ],
   entryComponents: [
     ImportModalComponent,
-    AboutComponent
+    AboutComponent,
+    CategoriesComponent
   ],
   exports: [
     TabsComponent,
     ImportModalComponent,
     AboutComponent,
+    CategoriesComponent,
     CapitalizePipe
   ]
 })

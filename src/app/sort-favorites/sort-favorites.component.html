@@ -1,6 +1,7 @@
  <div class="container">
    <div class="row">
-     <div class="col-md-6">
+     <div class="col-md-5">
+       <h4>Favorites</h4>
        <ng-template #itemTemplate let-item="item" let-index="index + 1">
          <div class="card" [ngClass]="{'bg-dark text-light' : darkTheme}">
            <div class="card-body">
@@ -21,9 +22,31 @@
          wrapperClass="sortable-wrapper"
        ></bs-sortable>
      </div>
-     <div class="col-md-6">
+     <div class="col-md-5">
+       <h4>Categories</h4>
+       <ng-template #itemTemplate let-item="item" let-index="index + 1">
+         <div class="card" [ngClass]="{'bg-dark text-light' : darkTheme}">
+           <div class="card-body">
+             <span class="card-text">{{ index }}</span> -
+             <span class="card-text">{{ item.value }}</span>
+           </div>
+
+         </div>
+       </ng-template>
+       <bs-sortable
+         [itemTemplate]="itemTemplate"
+         [(ngModel)]="menuItems"
+         fieldName="name"
+         itemClass="sortable-item"
+         itemActiveClass="sortable-item-active"
+         placeholderItem="Drag here"
+         placeholderClass="placeholderStyle"
+         wrapperClass="sortable-wrapper"
+       ></bs-sortable>
+     </div>
+     <div class="col-md-2">
        <div class="info">
-         <button class="btn-primary btn-lg" (click)="saveSorted(favorites)">save</button>
+         <button class="btn-primary btn-lg" (click)="saveSorted(favorites, menuItems)">save</button>
          <span *ngIf="info">&nbsp;Saved!</span>
        </div>
      </div>

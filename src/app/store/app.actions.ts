@@ -7,7 +7,7 @@ export const DELETE_MENU_ITEM = 'DELETE_MENU_ITEM';
 export const ADD_FAVORITE = 'ADD_FAVORITE';
 export const SAVE_EDITED_FAVORITE = 'SAVE_EDITED_FAVORITE';
 export const DELETE_FAVORITE = 'DELETE_FAVORITE';
-export const SAVE_SORTED_FAVORITES = 'SAVE_SORTED_FAVORITES';
+export const SAVE_SORTED = 'SAVE_SORTED';
 export const PROCESS_IMPORTED_SETTINGS = 'PROCESS_IMPORTED_SETTINGS';
 export const RETURN_FILTERED_FAVORITES = 'RETURN_FILTERED_FAVORITES';
 export const EXPORT_SETTINGS = 'EXPORT_SETTINGS';
@@ -41,9 +41,9 @@ export class DeleteFavorite implements Action {
   constructor(public payload: Favorite) {}
 }
 
-export class SaveSortedFavorites implements Action {
-  readonly type = SAVE_SORTED_FAVORITES;
-  constructor(public payload: Favorite[]) {}
+export class SaveSorted implements Action {
+  readonly type = SAVE_SORTED;
+  constructor(public payload: {favorites: Favorite[], menuItems: MenuItem[]}) {}
 }
 
 export class ProcessImportedSettings implements Action {
@@ -85,7 +85,7 @@ export type AppActions =
   AddFavorite |
   SaveEditedFavorite |
   DeleteFavorite |
-  SaveSortedFavorites |
+  SaveSorted |
   ProcessImportedSettings |
   ReturnFilteredFavorites |
   ExportSettings |

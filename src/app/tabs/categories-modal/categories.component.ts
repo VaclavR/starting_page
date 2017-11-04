@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { MenuItem } from '../menuItem.model';
+import { MenuItem } from '../../menuItem.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import * as AppActions from '../store/app.actions';
-import * as fromApp from '../store/app.reducers';
+import * as AppActions from '../../store/app.actions';
+import * as fromApp from '../../store/app.reducers';
 
 @Component({
   selector: 'app-categories',

@@ -74,7 +74,7 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
       localStorage.setItem('favorites', JSON.stringify(initialState.favorites));
       return {
         ...state,
-        favorites: [...state.favorites, action.payload]
+        favorites: [...state.favorites]
       };
 
     case (AppActions.SAVE_EDITED_FAVORITE):
@@ -101,12 +101,15 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
         favorites: deletedFavorites
       };
 
-    case (AppActions.SAVE_SORTED_FAVORITES):
-      initialState.favorites = action.payload;
+    case (AppActions.SAVE_SORTED):
+      initialState.favorites = action.payload.favorites;
+      initialState.menuItems = action.payload.menuItems;
       localStorage.setItem('favorites', JSON.stringify(initialState.favorites));
+      localStorage.setItem('menuItems', JSON.stringify(initialState.menuItems));
       return {
           ...state,
-          favorites: action.payload
+          favorites: action.payload.favorites,
+          menuItems: action.payload.menuItems
         };
 
     case (AppActions.PROCESS_IMPORTED_SETTINGS):
