@@ -71,6 +71,9 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
 
     case (AppActions.ADD_FAVORITE):
       initialState.favorites = [...initialState.favorites, action.payload];
+      if (action.payload.category === state.activeRoute) {
+        state.favorites = [...state.favorites, action.payload];
+      }
       localStorage.setItem('favorites', JSON.stringify(initialState.favorites));
       return {
         ...state,
