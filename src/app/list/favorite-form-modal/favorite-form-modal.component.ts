@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { Favorite } from '../../favorite.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -43,9 +43,7 @@ export class FormModalComponent implements OnInit {
   }
 
   onSubmit() {
-    this.bsModalRef.hide();
-    this.store.dispatch(
-      new AppActions.ActiveModal({show: false, component: 'FavoriteFormModalComponent'}));
+
     for (const item in this.favoriteForm.value) {
       if (this.favoriteForm.value.hasOwnProperty(item)) {
         this.favoriteForm.value[item] = this.favoriteForm.value[item].toLowerCase();
@@ -60,6 +58,10 @@ export class FormModalComponent implements OnInit {
           originalFavorite: this.editedFavorite,
           newFavorite: this.favoriteForm.value}));
     }
+
+    this.bsModalRef.hide();
+    this.store.dispatch(
+      new AppActions.ActiveModal({show: false, component: 'FavoriteFormModalComponent'}));
   }
 
   onHide() {

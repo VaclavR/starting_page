@@ -18,6 +18,7 @@ export class ItemComponent implements OnInit {
   @Input() index: number;
   editMode: boolean;
   darkTheme: boolean;
+  target: string;
   appState: Observable<fromApp.State>;
   config = {
     keyboard: false,
@@ -33,6 +34,7 @@ export class ItemComponent implements OnInit {
     this.appState.subscribe((data) => {
       this.editMode = data.itemEditMode;
       this.darkTheme = data.darkTheme;
+      this.target = data.target;
     });
   }
 

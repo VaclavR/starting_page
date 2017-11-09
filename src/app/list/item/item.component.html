@@ -1,9 +1,13 @@
 <div class="item">
   <a class="list-group-item"
      [href]="favorite.url"
+     [target]="target"
      [ngClass]="{'bg-dark text-light' : darkTheme}">
-    <h4 class="list-group-item-heading">{{ favorite.name | lowercase }}</h4>
+    <h4 class="list-group-item-heading">
+      {{ favorite.name | lowercase }}
+    </h4>
     <img class="img-fluid" [src]="'https://s2.googleusercontent.com/s2/favicons?domain_url='+favorite.url" alt="---">
+    <i *ngIf="target === '_blank'" class="fa fa-location-arrow" aria-hidden="true"></i>
   </a>
   <div class="btn-group" role="group" *ngIf="editMode">
     <button class="btn btn-warning btn-sm"

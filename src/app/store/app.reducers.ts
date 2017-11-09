@@ -18,6 +18,7 @@ export interface State {
   itemEditMode: boolean;
   activeModal: {show: boolean, component?: string};
   darkTheme: boolean;
+  target: string;
 }
 
 let initialState = {
@@ -37,7 +38,8 @@ let initialState = {
   favoriteFormEditMode: false,
   itemEditMode: false,
   activeModal: {show: false},
-  darkTheme: false
+  darkTheme: false,
+  target: '_self'
 };
 
 if (localStorage.menuItems) {
@@ -48,6 +50,10 @@ if (localStorage.favorites) {
 }
 if (localStorage.darkTheme) {
   initialState.darkTheme = JSON.parse(localStorage.getItem('darkTheme'));
+}
+
+if (localStorage.target) {
+  initialState.target = localStorage.getItem('target');
 }
 
 export function appReducer(state = initialState, action: AppActions.AppActions) {
@@ -116,7 +122,11 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
       updatedFavorites[pos] = action.payload.newFavorite;
       initialState.favorites = updatedFavorites;
       currentFavorites = updatedFavorites.filter((favorite) => {
-        return favorite.category === action.payload.originalFavorite.category;
+        if (state.activeRoute === 'all') {
+          return true;
+        } else {
+          return favorite.category === action.payload.originalFavorite.category;
+        }
       });
       localStorage.setItem('favorites', JSON.stringify(initialState.favorites));
       return {
@@ -238,6 +248,17 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
       return {
         ...state,
         activeModal: action.payload
+      };
+
+    case (AppActions.TOGGLE_TARGET):
+      if (state.target === '_self') {
+        state.target = '_blank';
+      } else {
+        state.target = '_self';
+      }
+      localStorage.setItem('target', state.target);
+      return {
+        ...state
       };
 
     default:

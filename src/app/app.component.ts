@@ -1,11 +1,11 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap';
 import { Store } from '@ngrx/store';
-import * as fromApp from './store/app.reducers';
-import * as AppActions from './store/app.actions';
 import { NavigationStart, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { BsModalService } from 'ngx-bootstrap';
 import { AboutComponent } from './tabs/about-modal/about.component';
+import * as fromApp from './store/app.reducers';
+import * as AppActions from './store/app.actions';
 
 @Component({
   selector: 'app-root',
@@ -51,9 +51,15 @@ export class AppComponent implements OnInit {
         }
         break;
 
+      case 'n':
+        this.store.dispatch(new AppActions.ToggleTarget());
+        break;
+
       case 'e':
-        this.editMode = !this.editMode;
-        this.store.dispatch(new AppActions.EditModeChanged(this.editMode));
+        if (!this.activeModal.show) {
+          this.editMode = !this.editMode;
+          this.store.dispatch(new AppActions.EditModeChanged(this.editMode));
+        }
         break;
 
       case 's':
@@ -61,9 +67,12 @@ export class AppComponent implements OnInit {
           this.beforeRoute = this.route;
           this.store.dispatch(new AppActions.ActiveRoute('sort'));
           this.router.navigate(['/sort']);
-        } else if (this.route === 'sort') {
+        } else if (this.route === 'sort' && this.beforeRoute !== undefined) {
           this.store.dispatch(new AppActions.ActiveRoute(this.beforeRoute));
           this.router.navigate([this.beforeRoute]);
+        } else if (!this.activeModal.show){
+          this.store.dispatch(new AppActions.ActiveRoute('all'));
+          this.router.navigate(['all']);
         }
         break;
     }

@@ -18,6 +18,7 @@ export const FAVORITE_EDIT_MODE_CHANGED = 'FAVORITE_EDIT_MODE_CHANGED';
 export const ACTIVE_ROUTE = 'ACTIVE_ROUTE';
 export const CHANGE_THEME = 'CHANGE_THEME';
 export const ACTIVE_MODAL = 'ACTIVE_MODAL';
+export const TOGGLE_TARGET = 'TOGGLE_TARGET';
 
 export class AddMenuItem implements Action {
   readonly type = ADD_MENU_ITEM;
@@ -97,6 +98,10 @@ export class ActiveModal implements Action {
   constructor(public payload: {show: boolean, component: string}) {}
 }
 
+export class ToggleTarget implements Action {
+  readonly type = TOGGLE_TARGET;
+}
+
 export type AppActions =
   AddMenuItem |
   SaveEditedMenuItem |
@@ -113,4 +118,5 @@ export type AppActions =
   FavoriteEditModeChanged |
   ActiveRoute |
   ChangeTheme |
-  ActiveModal;
+  ActiveModal |
+  ToggleTarget;

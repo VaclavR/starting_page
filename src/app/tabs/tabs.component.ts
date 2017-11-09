@@ -27,6 +27,7 @@ export class TabsComponent implements OnInit {
   menuItems: MenuItem[] = [];
   settings: Array<Array<any>>;
   editMode = false;
+  newTabLink: boolean;
   config = {
     keyboard: false,
     ignoreBackdropClick: true
@@ -45,6 +46,11 @@ export class TabsComponent implements OnInit {
       this.menuItems = data.menuItems;
       this.darkTheme = data.darkTheme;
       this.editMode = data.itemEditMode;
+      if (data.target === '_self') {
+        this.newTabLink = false;
+      } else {
+        this.newTabLink = true;
+      }
       if (this.darkTheme) {
         this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'black';
       } else {
@@ -81,6 +87,10 @@ export class TabsComponent implements OnInit {
 
   onToggleTheme() {
     this.store.dispatch(new AppActions.ChangeTheme());
+  }
+
+  onToggleTarget() {
+    this.store.dispatch(new AppActions.ToggleTarget());
   }
 
   onAbout() {
