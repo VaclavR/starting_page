@@ -51,6 +51,10 @@ export class AppComponent implements OnInit {
         }
         break;
 
+      case 'd':
+        this.store.dispatch(new AppActions.ChangeTheme());
+        break;
+
       case 'n':
         this.store.dispatch(new AppActions.ToggleTarget());
         break;
