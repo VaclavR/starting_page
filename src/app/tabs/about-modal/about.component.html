@@ -4,16 +4,21 @@
     <button type="button" class="close pull-right"
             [ngClass]="{'text-light' : darkTheme}"
             aria-label="Close"
-            (click)="bsModalRef.hide()">
+            (click)="onHide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>Starting Page v0.5</p>
+    <p>Starting Page v0.6</p>
+    <ul>
+      <li>h - show this help</li>
+      <li>e - toggle edit mode</li>
+      <li>s - toggle sort mode</li>
+    </ul>
     <p>Used technologies: angular, bootstrap, ngx-bootstrap, ngrx/store</p>
     <p>Created by Vencator - vaclav.rysavy@tutanota.com</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Close</button>
+    <button type="button" class="btn btn-default" (click)="onHide()">Close</button>
   </div>
 </div>

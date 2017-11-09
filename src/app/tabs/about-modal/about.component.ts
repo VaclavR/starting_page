@@ -3,6 +3,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as fromApp from '../../store/app.reducers';
+import * as AppActions from '../../store/app.actions';
 
 
 @Component({
@@ -22,6 +23,12 @@ export class AboutComponent implements OnInit {
     this.appState.subscribe((data) => {
       this.darkTheme = data.darkTheme;
     });
+  }
+
+  onHide() {
+    this.bsModalRef.hide();
+    this.store.dispatch(
+      new AppActions.ActiveModal({show: false, component: 'AboutComponent'}));
   }
 
 }

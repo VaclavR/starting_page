@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Favorite } from '../favorite.model';
 import { ActivatedRoute, Params } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap';
-import { FormModalComponent } from './form-modal/form-modal.component';
+import { FormModalComponent } from './favorite-form-modal/favorite-form-modal.component';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { MenuItem } from '../menuItem.model';
@@ -21,6 +21,10 @@ export class ListComponent implements OnInit {
   darkTheme: boolean;
   menuItems: MenuItem[];
   favorites: Favorite[];
+  config = {
+    keyboard: false,
+    ignoreBackdropClick: true
+  };
 
   constructor(private store: Store<fromApp.AppState>,
               private route: ActivatedRoute,
@@ -28,7 +32,12 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.store.dispatch(new AppActions.ReturnFilteredFavorites(params.id));
+      if (params.id !== undefined) {
+        this.store.dispatch(new AppActions.ReturnFilteredFavorites(params.id));
+      } else {
+        this.store.dispatch(new AppActions.ReturnFilteredFavorites('all'));
+      }
+
     });
     this.appState = this.store.select('app');
     this.appState.subscribe((data) => {
@@ -40,8 +49,10 @@ export class ListComponent implements OnInit {
 
   onShowForm() {
     this.store.dispatch(
-      new AppActions.FormEditModeChanged({formEditMode: false}));
-    this.modalService.show(FormModalComponent);
+      new AppActions.ActiveModal({show: true, component: 'FormModalComponent'}));
+    this.store.dispatch(
+      new AppActions.FavoriteEditModeChanged({favoriteEditMode: false}));
+    this.modalService.show(FormModalComponent, this.config);
   }
 
 }

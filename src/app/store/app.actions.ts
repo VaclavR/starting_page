@@ -3,6 +3,7 @@ import { MenuItem } from '../menuItem.model';
 import { Favorite } from '../favorite.model';
 
 export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
+export const SAVE_EDITED_MENU_ITEM = 'SAVE_EDITED_MENU_ITEM';
 export const DELETE_MENU_ITEM = 'DELETE_MENU_ITEM';
 export const ADD_FAVORITE = 'ADD_FAVORITE';
 export const SAVE_EDITED_FAVORITE = 'SAVE_EDITED_FAVORITE';
@@ -12,13 +13,20 @@ export const PROCESS_IMPORTED_SETTINGS = 'PROCESS_IMPORTED_SETTINGS';
 export const RETURN_FILTERED_FAVORITES = 'RETURN_FILTERED_FAVORITES';
 export const EXPORT_SETTINGS = 'EXPORT_SETTINGS';
 export const EDIT_MODE_CHANGED = 'EDIT_MODE_CHANGED';
-export const FORM_EDIT_MODE_CHANGED = 'FORM_EDIT_MODE_CHANGED';
+export const MENU_ITEM_EDIT_MODE_CHANGED = 'MENU_ITEM_EDIT_MODE_CHANGED';
+export const FAVORITE_EDIT_MODE_CHANGED = 'FAVORITE_EDIT_MODE_CHANGED';
 export const ACTIVE_ROUTE = 'ACTIVE_ROUTE';
 export const CHANGE_THEME = 'CHANGE_THEME';
+export const ACTIVE_MODAL = 'ACTIVE_MODAL';
 
 export class AddMenuItem implements Action {
   readonly type = ADD_MENU_ITEM;
   constructor(public payload: MenuItem) {}
+}
+
+export class SaveEditedMenuItem implements Action {
+  readonly type = SAVE_EDITED_MENU_ITEM;
+  constructor(public payload: {originalMenuItem: MenuItem, newMenuItem: MenuItem}) {}
 }
 
 export class DeleteMenuItem implements Action {
@@ -65,9 +73,14 @@ export class EditModeChanged implements Action {
   constructor(public payload: boolean) {}
 }
 
-export class FormEditModeChanged implements Action {
-  readonly type = FORM_EDIT_MODE_CHANGED;
-  constructor(public payload: {formEditMode: boolean, editedFavorite?: Favorite }) {}
+export class MenuItemEditModeChanged implements Action {
+  readonly type = MENU_ITEM_EDIT_MODE_CHANGED;
+  constructor(public payload: {menuItemEditMode: boolean, editedMenuItem?: MenuItem}) {}
+}
+
+export class FavoriteEditModeChanged implements Action {
+  readonly type = FAVORITE_EDIT_MODE_CHANGED;
+  constructor(public payload: {favoriteEditMode: boolean, editedFavorite?: Favorite }) {}
 }
 
 export class ActiveRoute implements Action {
@@ -79,8 +92,14 @@ export class ChangeTheme implements Action {
   readonly type = CHANGE_THEME;
 }
 
+export class ActiveModal implements Action {
+  readonly type = ACTIVE_MODAL;
+  constructor(public payload: {show: boolean, component: string}) {}
+}
+
 export type AppActions =
   AddMenuItem |
+  SaveEditedMenuItem |
   DeleteMenuItem |
   AddFavorite |
   SaveEditedFavorite |
@@ -90,6 +109,8 @@ export type AppActions =
   ReturnFilteredFavorites |
   ExportSettings |
   EditModeChanged |
-  FormEditModeChanged |
+  MenuItemEditModeChanged |
+  FavoriteEditModeChanged |
   ActiveRoute |
-  ChangeTheme;
+  ChangeTheme |
+  ActiveModal;

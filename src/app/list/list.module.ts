@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ListComponent } from './list.component';
 import { ItemComponent } from './item/item.component';
-import { FormModalComponent } from './form-modal/form-modal.component';
+import { FormModalComponent } from './favorite-form-modal/favorite-form-modal.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 

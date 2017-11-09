@@ -2,7 +2,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { Favorite } from '../../favorite.model';
 import { BsModalService } from 'ngx-bootstrap';
-import { FormModalComponent } from '../form-modal/form-modal.component';
+import { FormModalComponent } from '../favorite-form-modal/favorite-form-modal.component';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as AppActions from '../../store/app.actions';
@@ -19,15 +19,16 @@ export class ItemComponent implements OnInit {
   editMode: boolean;
   darkTheme: boolean;
   appState: Observable<fromApp.State>;
+  config = {
+    keyboard: false,
+    ignoreBackdropClick: true
+  };
 
   constructor(private route: ActivatedRoute,
               private modalService: BsModalService,
               private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      this.store.dispatch(new AppActions.ActiveRoute(params.id))
-    });
     this.appState = this.store.select('app');
     this.appState.subscribe((data) => {
       this.editMode = data.itemEditMode;
@@ -41,8 +42,10 @@ export class ItemComponent implements OnInit {
 
   onShowForm() {
     this.store.dispatch(
-      new AppActions.FormEditModeChanged({formEditMode: true, editedFavorite: this.favorite}));
-    this.modalService.show(FormModalComponent);
+      new AppActions.ActiveModal({show: true, component: 'FormModalComponent'}));
+    this.store.dispatch(
+      new AppActions.FavoriteEditModeChanged({favoriteEditMode: true, editedFavorite: this.favorite}));
+    this.modalService.show(FormModalComponent, this.config);
   }
 
 }

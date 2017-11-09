@@ -8,3 +8,7 @@ a.editMode {
   padding-right: 0px!important;
 }
 
+.icons i {
+  cursor: pointer;
+}
+

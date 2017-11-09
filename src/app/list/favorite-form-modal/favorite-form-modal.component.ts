@@ -10,8 +10,8 @@ const title = require('url-title');
 
 @Component({
   selector: 'app-form-modal',
-  templateUrl: './form-modal.component.html',
-  styleUrls: ['./form-modal.component.css']
+  templateUrl: './favorite-form-modal.component.html',
+  styleUrls: ['./favorite-form-modal.component.css']
 })
 export class FormModalComponent implements OnInit {
   favoriteForm: FormGroup;
@@ -26,7 +26,7 @@ export class FormModalComponent implements OnInit {
   ngOnInit() {
     this.appState = this.store.select('app');
     this.appState.subscribe((data) => {
-      this.editMode = data.formEditMode;
+      this.editMode = data.favoriteEditMode;
       this.editedFavorite = data.editedFavorite;
       this.darkTheme = data.darkTheme;
       this.favoriteForm = new FormGroup({
@@ -44,6 +44,8 @@ export class FormModalComponent implements OnInit {
 
   onSubmit() {
     this.bsModalRef.hide();
+    this.store.dispatch(
+      new AppActions.ActiveModal({show: false, component: 'FavoriteFormModalComponent'}));
     for (const item in this.favoriteForm.value) {
       if (this.favoriteForm.value.hasOwnProperty(item)) {
         this.favoriteForm.value[item] = this.favoriteForm.value[item].toLowerCase();
@@ -54,7 +56,14 @@ export class FormModalComponent implements OnInit {
       this.store.dispatch(new AppActions.AddFavorite(this.favoriteForm.value));
     } else {
       this.store.dispatch(new AppActions
-        .SaveEditedFavorite({originalFavorite: this.editedFavorite, newFavorite: this.favoriteForm.value}));
+        .SaveEditedFavorite({
+          originalFavorite: this.editedFavorite,
+          newFavorite: this.favoriteForm.value}));
     }
+  }
+
+  onHide() {
+    this.bsModalRef.hide();
+    this.store.dispatch(new AppActions.ActiveModal({show: false, component: 'FavoriteFormModalComponent'}));
   }
 }

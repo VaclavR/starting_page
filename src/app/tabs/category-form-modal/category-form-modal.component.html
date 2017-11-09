@@ -1,0 +1,23 @@
+<div class="modal-content" [ngClass]="{'bg-dark text-light' : darkTheme}">
+  <div class="modal-body">
+    <form (ngSubmit)="onSave(f)" #f="ngForm">
+      <div class="form-group">
+        <input type="text"
+               id="category"
+               class="form-control"
+               [ngClass]="{'bg-dark text-light' : darkTheme}"
+               name="name"
+               required
+               autofocus
+               [ngModel]="editedMenuItem.name"
+               ngModel
+               >
+      </div>
+      <button type="submit"
+              class="btn btn-primary"
+              [disabled]="f.invalid">
+        Save
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onHide()">Close</button>
+    </form>
+</div>

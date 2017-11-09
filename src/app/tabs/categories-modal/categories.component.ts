@@ -37,4 +37,10 @@ export class CategoriesComponent implements OnInit {
     this.categoryToDelete = undefined;
   }
 
+  onHide() {
+    this.bsModalRef.hide();
+    this.store.dispatch(
+      new AppActions.ActiveModal({show: false, component: 'CategoriesComponent'}));
+  }
+
 }

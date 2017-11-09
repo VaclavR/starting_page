@@ -11,10 +11,12 @@ export interface State {
   favorites: Favorite[];
   menuItems: MenuItem[];
   editedFavorite: Favorite;
+  editedMenuItem: MenuItem;
   activeRoute: string;
-  activeMenuItem: string;
-  formEditMode: boolean;
+  menuItemEditMode: boolean;
+  favoriteEditMode: boolean;
   itemEditMode: boolean;
+  activeModal: {show: boolean, component?: string};
   darkTheme: boolean;
 }
 
@@ -28,12 +30,14 @@ let initialState = {
     new MenuItem('news'),
     new MenuItem('education')
   ],
-  activeMenuItem: 'all',
-  formEditMode: false,
-  itemEditMode: false,
-  darkTheme: false,
   editedFavorite: new Favorite('', '', ''),
-  activeRoute: 'all'
+  editedMenuItem: new MenuItem(''),
+  activeRoute: 'all',
+  menuItemFormEditMode: false,
+  favoriteFormEditMode: false,
+  itemEditMode: false,
+  activeModal: {show: false},
+  darkTheme: false
 };
 
 if (localStorage.menuItems) {
@@ -47,6 +51,9 @@ if (localStorage.darkTheme) {
 }
 
 export function appReducer(state = initialState, action: AppActions.AppActions) {
+  let pos: number;
+  let currentFavorites: Favorite[];
+
   switch (action.type) {
 
     case (AppActions.ADD_MENU_ITEM):
@@ -56,6 +63,29 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
         ...state,
         menuItems: [...state.menuItems, action.payload]
         };
+
+    case (AppActions.SAVE_EDITED_MENU_ITEM):
+      const favoritesToModify = [...initialState.favorites];
+      const modifiedFavorites = favoritesToModify.map((favorite) => {
+        if (favorite.category === action.payload.originalMenuItem.name ) {
+          favorite.category = action.payload.newMenuItem.name;
+          return favorite;
+        }
+        return favorite;
+      });
+      localStorage.setItem('favorites', JSON.stringify(initialState.favorites));
+
+
+
+      const filterMenuItems = [...state.menuItems];
+      pos = filterMenuItems.indexOf(action.payload.originalMenuItem);
+      filterMenuItems[pos] = action.payload.newMenuItem;
+      initialState.menuItems = filterMenuItems;
+      localStorage.setItem('menuItems', JSON.stringify(initialState.menuItems));
+      return {
+        ...state,
+        menuItems: initialState.menuItems
+      };
 
     case (AppActions.DELETE_MENU_ITEM):
       const oldMenuItems = [...state.menuItems];
@@ -81,27 +111,29 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
       };
 
     case (AppActions.SAVE_EDITED_FAVORITE):
-      const filterFavorites = [...state.favorites];
-      let pos = filterFavorites.indexOf(action.payload.originalFavorite);
-      filterFavorites[pos] = action.payload.newFavorite;
-      const editedFavorites = [...initialState.favorites];
-      pos = editedFavorites.indexOf(action.payload.originalFavorite);
-      editedFavorites[pos] = action.payload.newFavorite;
-      initialState.favorites = editedFavorites;
+      const updatedFavorites = [...initialState.favorites];
+      pos = updatedFavorites.indexOf(action.payload.originalFavorite);
+      updatedFavorites[pos] = action.payload.newFavorite;
+      initialState.favorites = updatedFavorites;
+      currentFavorites = updatedFavorites.filter((favorite) => {
+        return favorite.category === action.payload.originalFavorite.category;
+      });
       localStorage.setItem('favorites', JSON.stringify(initialState.favorites));
       return {
         ...state,
-        favorites: filterFavorites
+        favorites: currentFavorites
       };
 
     case (AppActions.DELETE_FAVORITE):
+      currentFavorites = [...state.favorites];
+      currentFavorites.splice(currentFavorites.indexOf(action.payload), 1);
       const deletedFavorites = [...initialState.favorites];
       deletedFavorites.splice(deletedFavorites.indexOf(action.payload), 1);
       initialState.favorites = deletedFavorites;
       localStorage.setItem('favorites', JSON.stringify(initialState.favorites));
       return {
         ...state,
-        favorites: deletedFavorites
+        favorites: currentFavorites
       };
 
     case (AppActions.SAVE_SORTED):
@@ -133,7 +165,7 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
         return {
           ...state,
           favorites: initialState.favorites,
-          menuItems: initialState.menuItems
+          menuItems: initialState.menuItems,
         };
       }
       const oldFavorites = [...initialState.favorites];
@@ -143,7 +175,7 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
       return {
         ...state,
         favorites: filteredFavorites,
-        menuItems: state.menuItems
+        menuItems: state.menuItems,
       };
 
     case (AppActions.EXPORT_SETTINGS):
@@ -161,17 +193,31 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
         itemEditMode: action.payload
       };
 
-    case (AppActions.FORM_EDIT_MODE_CHANGED):
-      if (!action.payload.formEditMode) {
+    case (AppActions.MENU_ITEM_EDIT_MODE_CHANGED):
+      if (!action.payload.menuItemEditMode) {
         return {
           ...state,
-          formEditMode: action.payload.formEditMode,
+          menuItemEditMode: action.payload.menuItemEditMode,
+          editedMenuItem: initialState.editedMenuItem
+        };
+      }
+      return {
+        ...state,
+        menuItemEditMode: action.payload.menuItemEditMode,
+        editedMenuItem: action.payload.editedMenuItem
+      };
+
+    case (AppActions.FAVORITE_EDIT_MODE_CHANGED):
+      if (!action.payload.favoriteEditMode) {
+        return {
+          ...state,
+          favoriteEditMode: action.payload.favoriteEditMode,
           editedFavorite: new Favorite('', '', state.activeRoute)
         };
       }
       return {
         ...state,
-        formEditMode: action.payload.formEditMode,
+        favoriteEditMode: action.payload.favoriteEditMode,
         editedFavorite: action.payload.editedFavorite
       };
 
@@ -186,6 +232,12 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
       return {
         ...state,
         darkTheme: !state.darkTheme
+      };
+
+    case (AppActions.ACTIVE_MODAL):
+      return {
+        ...state,
+        activeModal: action.payload
       };
 
     default:

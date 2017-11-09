@@ -1,15 +1,17 @@
-import { AboutComponent } from './about-modal/about.component';
-import { ImportModalComponent } from './import-modal/import-modal.component';
 import { Component, ElementRef, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { CategoriesComponent } from './categories-modal/categories.component';
-import { MenuItem } from '../menuItem.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+
+import { AboutComponent } from './about-modal/about.component';
+import { CategoriesComponent } from './categories-modal/categories.component';
+import { ImportModalComponent } from './import-modal/import-modal.component';
+import { EditCategoryComponent } from './category-form-modal/category-form-modal.component';
+import { MenuItem } from '../menuItem.model';
 import { Favorite } from '../favorite.model';
 import * as AppActions from '../store/app.actions';
 import * as fromApp from '../store/app.reducers';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tabs',
@@ -24,9 +26,12 @@ export class TabsComponent implements OnInit {
   favorites: Favorite[] = [];
   menuItems: MenuItem[] = [];
   settings: Array<Array<any>>;
-
-  public isCollapsed = true;
   editMode = false;
+  config = {
+    keyboard: false,
+    ignoreBackdropClick: true
+  };
+  public isCollapsed = true;
 
   constructor(private modalService: BsModalService,
               private store: Store<fromApp.AppState>,
@@ -39,6 +44,7 @@ export class TabsComponent implements OnInit {
       this.favorites = data.favorites;
       this.menuItems = data.menuItems;
       this.darkTheme = data.darkTheme;
+      this.editMode = data.itemEditMode;
       if (this.darkTheme) {
         this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'black';
       } else {
@@ -53,10 +59,13 @@ export class TabsComponent implements OnInit {
   }
 
   onCategories() {
-    this.modalService.show(CategoriesComponent);
+    this.store.dispatch(
+      new AppActions.ActiveModal({show: true, component: 'CategoriesComponent'}));
+    this.modalService.show(CategoriesComponent, this.config);
   }
 
   onSort() {
+    this.store.dispatch(new AppActions.ActiveRoute('sort'));
     this.router.navigate(['/sort']);
   }
 
@@ -65,7 +74,9 @@ export class TabsComponent implements OnInit {
   }
 
   onImport() {
-    this.modalService.show(ImportModalComponent);
+    this.store.dispatch(
+      new AppActions.ActiveModal({show: true, component: 'ImportModalComponent'}));
+    this.modalService.show(ImportModalComponent, this.config);
   }
 
   onToggleTheme() {
@@ -73,7 +84,29 @@ export class TabsComponent implements OnInit {
   }
 
   onAbout() {
-    this.modalService.show(AboutComponent);
+    this.store.dispatch(
+      new AppActions.ActiveModal({show: true, component: 'AboutComponent'}));
+    this.modalService.show(AboutComponent, this.config);
+  }
+
+  onShowMenuItemAddForm() {
+    this.store.dispatch(
+      new AppActions.ActiveModal({show: true, component: 'EditCategoryComponent'}));
+    this.store.dispatch(
+      new AppActions.MenuItemEditModeChanged({menuItemEditMode: false}));
+    this.modalService.show(EditCategoryComponent, this.config);
+  }
+
+  onDeleteMenuItem(category: string) {
+    this.store.dispatch(new AppActions.DeleteMenuItem(new MenuItem(category)));
+  }
+
+  onShowMenuItemEditForm(menuItem: MenuItem) {
+    this.store.dispatch(
+      new AppActions.ActiveModal({show: true, component: 'EditCategoryComponent'}));
+    this.store.dispatch(
+      new AppActions.MenuItemEditModeChanged({menuItemEditMode: true, editedMenuItem: menuItem}));
+    this.modalService.show(EditCategoryComponent, this.config);
   }
 
 }

@@ -3,7 +3,7 @@
     <h5 class="modal-title">Import Settings</h5>
     <button type="button" class="close"
             [ngClass]="{'text-light' : darkTheme}"
-            (click)="bsModalRef.hide()">
+            (click)="onHide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -16,6 +16,6 @@
       </div>
     </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">Close</button>
+    <button type="button" class="btn btn-secondary" (click)="onHide()">Close</button>
   </div>
 </div>

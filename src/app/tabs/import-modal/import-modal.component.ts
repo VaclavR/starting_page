@@ -63,11 +63,19 @@ export class ImportModalComponent implements OnInit, OnDestroy {
         alert('This is not a Settings file!!!');
         return;
       }
-        this.importedSettings = JSON.parse(reader.result);
-        this.settingsLoaded.next();
-        this.bsModalRef.hide();
+      this.importedSettings = JSON.parse(reader.result);
+      this.settingsLoaded.next();
+      this.bsModalRef.hide();
+      this.store.dispatch(
+        new AppActions.ActiveModal({show: false, component: 'ImportModalComponent'}));
     };
     reader.readAsText(event.target.files[0]);
+  }
+
+  onHide() {
+    this.bsModalRef.hide();
+    this.store.dispatch(
+      new AppActions.ActiveModal({show: false, component: 'ImportModalComponent'}));
   }
 
   ngOnDestroy() {

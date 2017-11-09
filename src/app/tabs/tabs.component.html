@@ -1,28 +1,41 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light"
-     [ngClass]="{'navbar-light bg-light': !darkTheme,
-                 'navbar-dark bg-dark' : darkTheme
-                 }">
-  <button class="navbar-toggler"
-          (click)="isCollapsed = !isCollapsed"
-          type="button">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse"
-       [collapse]="isCollapsed">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="all">All <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item" *ngFor="let item of menuItems" routerLinkActive="active">
+<div class="container fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light"
+       [ngClass]="{'navbar-light bg-light': !darkTheme,
+                 'navbar-dark bg-dark' : darkTheme}">
+    <button class="navbar-toggler"
+            (click)="isCollapsed = !isCollapsed"
+            type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse"
+         [collapse]="isCollapsed">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="all">All <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item" *ngFor="let item of menuItems" routerLinkActive="active">
           <a class="nav-link" [ngClass]="{'editMode': editMode}"
              [routerLink]="item.name">{{ item.name | capitalize}}</a>
-          <span *ngIf="editMode">
-            <i class="fa fa-pencil-square-o text-warning" aria-hidden="true"></i>
-            <i class="fa fa-window-close text-danger" aria-hidden="true"></i>
+          <span class="icons" *ngIf="editMode">
+            <i class="fa fa-pencil-square-o text-warning"
+               (click)="onShowMenuItemEditForm(item)"
+               aria-hidden="true"></i>
+            <i class="fa fa-window-close text-danger"
+               (click)="onDeleteMenuItem(item.name)"
+               aria-hidden="true">
+
+            </i>
           </span>
-      </li>
-    </ul>
-    <div class="navbar-nav">
+        </li>
+        <li class="nav-item">
+          <span class="icons">
+            <a class="nav-link" (click)="onShowMenuItemAddForm()">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </span>
+        </li>
+      </ul>
+      <div class="navbar-nav">
         <div class="btn-group" dropdown>
           <a class="nav-link dropdown-toggle" dropdownToggle>
             Settings <span class="caret"></span>
@@ -47,6 +60,6 @@
           </ul>
         </div>
       </div>
-  </div>
-</nav>
-
+    </div>
+  </nav>
+</div>

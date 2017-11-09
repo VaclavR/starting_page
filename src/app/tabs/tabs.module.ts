@@ -10,6 +10,7 @@ import { AboutComponent } from './about-modal/about.component';
 import { CapitalizePipe } from '../capitalize.pipe';
 import { CategoriesComponent } from './categories-modal/categories.component';
 import { FormsModule } from '@angular/forms';
+import { EditCategoryComponent } from './category-form-modal/category-form-modal.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { FormsModule } from '@angular/forms';
     ImportModalComponent,
     AboutComponent,
     CategoriesComponent,
+    EditCategoryComponent,
     CapitalizePipe
   ],
   imports: [
@@ -29,13 +31,15 @@ import { FormsModule } from '@angular/forms';
   entryComponents: [
     ImportModalComponent,
     AboutComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    EditCategoryComponent
   ],
   exports: [
     TabsComponent,
     ImportModalComponent,
     AboutComponent,
     CategoriesComponent,
+    EditCategoryComponent,
     CapitalizePipe
   ]
 })
