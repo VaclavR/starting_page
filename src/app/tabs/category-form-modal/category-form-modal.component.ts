@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
@@ -51,6 +51,12 @@ export class EditCategoryComponent implements OnInit {
     this.bsModalRef.hide();
     this.store.dispatch(
       new AppActions.ActiveModal({show: false, component: 'CategoryFormModalComponent'}));
+  }
+
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    if (event.keyCode === 27) {
+      this.onHide();
+    }
   }
 
 }

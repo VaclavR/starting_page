@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { Favorite } from '../../favorite.model';
 import { Store } from '@ngrx/store';
@@ -67,5 +67,11 @@ export class FormModalComponent implements OnInit {
   onHide() {
     this.bsModalRef.hide();
     this.store.dispatch(new AppActions.ActiveModal({show: false, component: 'FavoriteFormModalComponent'}));
+  }
+
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    if (event.keyCode === 27) {
+      this.onHide();
+    }
   }
 }

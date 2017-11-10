@@ -72,7 +72,7 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
 
     case (AppActions.SAVE_EDITED_MENU_ITEM):
       const favoritesToModify = [...initialState.favorites];
-      const modifiedFavorites = favoritesToModify.map((favorite) => {
+      favoritesToModify.map((favorite) => {
         if (favorite.category === action.payload.originalMenuItem.name ) {
           favorite.category = action.payload.newMenuItem.name;
           return favorite;
@@ -109,6 +109,9 @@ export function appReducer(state = initialState, action: AppActions.AppActions) 
       initialState.favorites = [...initialState.favorites, action.payload];
       if (action.payload.category === state.activeRoute) {
         state.favorites = [...state.favorites, action.payload];
+      }
+      if (state.activeRoute === 'all') {
+        state.favorites = initialState.favorites;
       }
       localStorage.setItem('favorites', JSON.stringify(initialState.favorites));
       return {

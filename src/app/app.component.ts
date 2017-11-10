@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
   handleKeyboardEvent(event: KeyboardEvent) {
     switch (event.key) {
       case 'h':
-        if (this.activeModal.show !== true) {
+        if (!this.activeModal.show) {
           this.store.dispatch(
             new AppActions.ActiveModal({show: true, component: 'AboutComponent'}));
           this.modalService.show(AboutComponent, this.config);
@@ -52,11 +52,15 @@ export class AppComponent implements OnInit {
         break;
 
       case 'd':
-        this.store.dispatch(new AppActions.ChangeTheme());
+        if (!this.activeModal.show) {
+          this.store.dispatch(new AppActions.ChangeTheme());
+        }
         break;
 
       case 'n':
-        this.store.dispatch(new AppActions.ToggleTarget());
+        if (!this.activeModal.show) {
+          this.store.dispatch(new AppActions.ToggleTarget());
+        }
         break;
 
       case 'e':
@@ -74,7 +78,7 @@ export class AppComponent implements OnInit {
         } else if (this.route === 'sort' && this.beforeRoute !== undefined) {
           this.store.dispatch(new AppActions.ActiveRoute(this.beforeRoute));
           this.router.navigate([this.beforeRoute]);
-        } else if (!this.activeModal.show){
+        } else if (!this.activeModal.show) {
           this.store.dispatch(new AppActions.ActiveRoute('all'));
           this.router.navigate(['all']);
         }

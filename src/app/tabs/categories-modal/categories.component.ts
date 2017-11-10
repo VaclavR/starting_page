@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MenuItem } from '../../menuItem.model';
@@ -41,6 +41,12 @@ export class CategoriesComponent implements OnInit {
     this.bsModalRef.hide();
     this.store.dispatch(
       new AppActions.ActiveModal({show: false, component: 'CategoriesComponent'}));
+  }
+
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    if (event.keyCode === 27) {
+      this.onHide();
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs/Subject';
 import { Favorite } from '../../favorite.model';
@@ -76,6 +76,12 @@ export class ImportModalComponent implements OnInit, OnDestroy {
     this.bsModalRef.hide();
     this.store.dispatch(
       new AppActions.ActiveModal({show: false, component: 'ImportModalComponent'}));
+  }
+
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    if (event.keyCode === 27) {
+      this.onHide();
+    }
   }
 
   ngOnDestroy() {

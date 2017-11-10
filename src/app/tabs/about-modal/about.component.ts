@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -29,6 +29,23 @@ export class AboutComponent implements OnInit {
     this.bsModalRef.hide();
     this.store.dispatch(
       new AppActions.ActiveModal({show: false, component: 'AboutComponent'}));
+  }
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'h' || event.keyCode === 27) {
+      this.bsModalRef.hide();
+      this.store.dispatch(
+        new AppActions.ActiveModal({show: false, component: 'AboutComponent'}));
+    }
+  }
+
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    if (event.keyCode === 27) {
+      this.bsModalRef.hide();
+      this.store.dispatch(
+        new AppActions.ActiveModal({show: false, component: 'AboutComponent'}));
+    }
   }
 
 }
