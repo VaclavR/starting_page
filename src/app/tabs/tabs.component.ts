@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { AboutComponent } from './about-modal/about.component';
-import { CategoriesComponent } from './categories-modal/categories.component';
 import { ImportModalComponent } from './import-modal/import-modal.component';
 import { EditCategoryComponent } from './category-form-modal/category-form-modal.component';
 import { MenuItem } from '../menuItem.model';
@@ -46,11 +45,7 @@ export class TabsComponent implements OnInit {
       this.menuItems = data.menuItems;
       this.darkTheme = data.darkTheme;
       this.editMode = data.itemEditMode;
-      if (data.target === '_self') {
-        this.newTabLink = false;
-      } else {
-        this.newTabLink = true;
-      }
+      this.newTabLink = data.target === '_self';
       if (this.darkTheme) {
         this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'black';
       } else {
@@ -59,15 +54,15 @@ export class TabsComponent implements OnInit {
     });
   }
 
+  onCheckIfCollapsed() {
+    if (!this.isCollapsed) {
+      this.isCollapsed = !this.isCollapsed;
+    }
+  }
+
   onEditMode() {
     this.editMode = !this.editMode;
     this.store.dispatch(new AppActions.EditModeChanged(this.editMode));
-  }
-
-  onCategories() {
-    this.store.dispatch(
-      new AppActions.ActiveModal({show: true, component: 'CategoriesComponent'}));
-    this.modalService.show(CategoriesComponent, this.config);
   }
 
   onSort() {

@@ -1,11 +1,11 @@
 ul.bg-dark>li>a.dropdown-item:hover {
-  background-color: black;
+  background-color: #141414;
   color: white;
 }
 
 a.editMode {
   display: inline-flex;
-  padding-right: 0px!important;
+  padding-right: 0!important;
 }
 
 .icons i {

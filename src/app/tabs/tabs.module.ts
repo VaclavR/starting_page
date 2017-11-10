@@ -8,7 +8,6 @@ import { TabsComponent } from './tabs.component';
 import { ImportModalComponent } from './import-modal/import-modal.component';
 import { AboutComponent } from './about-modal/about.component';
 import { CapitalizePipe } from '../capitalize.pipe';
-import { CategoriesComponent } from './categories-modal/categories.component';
 import { FormsModule } from '@angular/forms';
 import { EditCategoryComponent } from './category-form-modal/category-form-modal.component';
 
@@ -17,7 +16,6 @@ import { EditCategoryComponent } from './category-form-modal/category-form-modal
     TabsComponent,
     ImportModalComponent,
     AboutComponent,
-    CategoriesComponent,
     EditCategoryComponent,
     CapitalizePipe
   ],
@@ -31,14 +29,12 @@ import { EditCategoryComponent } from './category-form-modal/category-form-modal
   entryComponents: [
     ImportModalComponent,
     AboutComponent,
-    CategoriesComponent,
     EditCategoryComponent
   ],
   exports: [
     TabsComponent,
     ImportModalComponent,
     AboutComponent,
-    CategoriesComponent,
     EditCategoryComponent,
     CapitalizePipe
   ]
