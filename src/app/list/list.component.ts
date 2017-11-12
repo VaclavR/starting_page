@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { MenuItem } from '../menuItem.model';
 import * as fromApp from '../store/app.reducers';
 import * as AppActions from '../store/app.actions';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -28,9 +29,11 @@ export class ListComponent implements OnInit {
 
   constructor(private store: Store<fromApp.AppState>,
               private route: ActivatedRoute,
-              private modalService: BsModalService) { }
+              private modalService: BsModalService,
+              private titleService: Title) { }
 
   ngOnInit() {
+    this.titleService.setTitle('Starting page');
     this.route.params.subscribe((params: Params) => {
       if (params.id !== undefined) {
         this.store.dispatch(new AppActions.ReturnFilteredFavorites(params.id));
