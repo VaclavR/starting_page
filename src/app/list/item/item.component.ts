@@ -1,4 +1,3 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { Favorite } from '../../favorite.model';
 import { BsModalService } from 'ngx-bootstrap';
@@ -25,8 +24,7 @@ export class ItemComponent implements OnInit {
     ignoreBackdropClick: true
   };
 
-  constructor(private route: ActivatedRoute,
-              private modalService: BsModalService,
+  constructor(private modalService: BsModalService,
               private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {

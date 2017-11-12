@@ -10,6 +10,7 @@
             class="form-control"
             [ngClass]="{'bg-dark text-light' : darkTheme}"
             pattern="https?://.+"
+            autofocus
             >
         </div>
         <div class="form-group">
@@ -24,7 +25,7 @@
         </div>
         <div class="form-group">
           <label for="category">Category</label>
-          <select formControlName="category"
+          <select [formControlName]="'category'"
                   id="category"
                   class="form-control"
                   [ngClass]="{'bg-dark text-light' : darkTheme}"

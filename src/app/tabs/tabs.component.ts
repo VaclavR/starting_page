@@ -31,7 +31,7 @@ export class TabsComponent implements OnInit {
     keyboard: false,
     ignoreBackdropClick: true
   };
-  public isCollapsed = true;
+  isCollapsed = true;
 
   constructor(private modalService: BsModalService,
               private store: Store<fromApp.AppState>,

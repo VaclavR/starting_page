@@ -52,14 +52,22 @@
               <i *ngIf="editMode" class="fa fa-check"></i>
             </a>
           </li>
-          <li role="menuitem"><a class="dropdown-item" (click)="onSort()">Sort</a></li>
+          <li role="menuitem">
+            <a class="dropdown-item" (click)="onToggleTheme()">
+              Dark Theme
+              <i *ngIf="darkTheme" class="fa fa-check"></i>
+            </a>
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item" (click)="onToggleTarget()">
+              New Tab Links
+              <i *ngIf="!newTabLink" class="fa fa-check"></i>
+            </a>
+          </li>
+          <li *hideItBootstrap="['xs','sm']"
+            role="menuitem"><a class="dropdown-item" (click)="onSort()">Sort</a></li>
           <li role="menuitem"><a class="dropdown-item" (click)="onExport()">Export Settings</a></li>
           <li role="menuitem"><a class="dropdown-item" (click)="onImport()">Import Settings</a></li>
-          <li role="menuitem"><a class="dropdown-item" (click)="onToggleTheme()">Change Theme</a></li>
-          <li role="menuitem"><a class="dropdown-item" (click)="onToggleTarget()">
-            New Tab Links
-            <i *ngIf="newTabLink" class="fa fa-check"></i>
-          </a></li>
           <li class="divider dropdown-divider"></li>
           <li role="menuitem"><a class="dropdown-item" (click)="onAbout()">About</a>
           </li>

@@ -10,6 +10,7 @@ import { AboutComponent } from './about-modal/about.component';
 import { CapitalizePipe } from '../capitalize.pipe';
 import { FormsModule } from '@angular/forms';
 import { EditCategoryComponent } from './category-form-modal/category-form-modal.component';
+import { ResponsiveModule } from 'ng2-responsive';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { EditCategoryComponent } from './category-form-modal/category-form-modal
     CommonModule,
     AppRoutingModule,
     FormsModule,
+    ResponsiveModule,
     CollapseModule.forRoot(),
     BsDropdownModule.forRoot()
   ],
