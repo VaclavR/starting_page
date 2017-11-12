@@ -22,6 +22,7 @@ export class ListComponent implements OnInit {
   darkTheme: boolean;
   menuItems: MenuItem[];
   favorites: Favorite[];
+  titleName: string;
   config = {
     keyboard: false,
     ignoreBackdropClick: true
@@ -33,7 +34,6 @@ export class ListComponent implements OnInit {
               private titleService: Title) { }
 
   ngOnInit() {
-    this.titleService.setTitle('Starting page');
     this.route.params.subscribe((params: Params) => {
       if (params.id !== undefined) {
         this.store.dispatch(new AppActions.ReturnFilteredFavorites(params.id));
@@ -47,6 +47,12 @@ export class ListComponent implements OnInit {
       this.menuItems = data.menuItems;
       this.favorites = data.favorites;
       this.darkTheme = data.darkTheme;
+      this.titleName = data.activeRoute;
+      if (this.titleName) {
+        this.titleService.setTitle('Starting page - ' + this.titleName);
+      } else {
+        this.titleService.setTitle('Starting page - all');
+      }
     });
   }
 
