@@ -5,7 +5,7 @@ ul.bg-dark>li>a.dropdown-item:hover {
 
 a.editMode {
   display: inline-flex;
-  /*padding-right: 0!important;*/
+  padding-right: 0!important;
   padding-left: 0!important;
 }
 
@@ -20,8 +20,8 @@ li.editMode {
 
 @media (min-width: 992px) {
   li.editMode {
-    margin-right: 2px;
-    border: 1px dotted gray;
+    margin-right: 5px;
+    border: 1px dashed darkgray;
   }
 }
 
