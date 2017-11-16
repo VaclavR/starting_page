@@ -5,10 +5,23 @@ ul.bg-dark>li>a.dropdown-item:hover {
 
 a.editMode {
   display: inline-flex;
-  padding-right: 0!important;
+  /*padding-right: 0!important;*/
+  padding-left: 0!important;
+}
+
+li.editMode {
+
 }
 
 .icons i {
   cursor: pointer;
+}
+
+
+@media (min-width: 992px) {
+  li.editMode {
+    margin-right: 2px;
+    border: 1px dotted gray;
+  }
 }
 

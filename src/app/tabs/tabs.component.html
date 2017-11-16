@@ -14,20 +14,21 @@
           <a class="nav-link" (click)="onCheckIfCollapsed()"
              routerLink="all">All <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item" *ngFor="let item of menuItems" routerLinkActive="active">
+        <li class="nav-item" *ngFor="let item of menuItems"
+            [ngClass]="{editMode: editMode}"
+            routerLinkActive="active">
+          <span class="icons" *ngIf="editMode">
+            <i class="fa fa-pencil-square-o fa-lg text-warning"
+               (click)="onShowMenuItemEditForm(item)"
+               aria-hidden="true"></i>
+            <i class="fa fa-window-close fa-lg text-danger"
+               (click)="onDeleteMenuItem(item.name)"
+               aria-hidden="true">
+            </i>
+          </span>
           <a class="nav-link" [ngClass]="{'editMode': editMode}"
              (click)="onCheckIfCollapsed()"
              [routerLink]="item.name">{{ item.name | capitalize}}</a>
-          <span class="icons" *ngIf="editMode">
-            <i class="fa fa-pencil-square-o text-warning"
-               (click)="onShowMenuItemEditForm(item)"
-               aria-hidden="true"></i>
-            <i class="fa fa-window-close text-danger"
-               (click)="onDeleteMenuItem(item.name)"
-               aria-hidden="true">
-
-            </i>
-          </span>
         </li>
         <li class="nav-item">
           <span class="icons">
